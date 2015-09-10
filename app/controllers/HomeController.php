@@ -59,6 +59,7 @@ class HomeController extends BaseController {
                 $num_productos = count(Input::get('codigos'));
                 $codigos = Input::get('codigos');
                 $cantidades = Input::get('cantidades');
+                $unidadManejo = Input::get('unidadManejo');
                 
                 $n_pedido = $this->tomarNumPedido();
                 
@@ -84,10 +85,12 @@ class HomeController extends BaseController {
                                 ->where('Codigo','=',$codigos[$i])
                                 ->first();
                 	
+                        $decremento = $cantidades[$i]*$unidadManejo[$i];
+                        
                 	DB::table('inventarios')
                 		 ->where('user_id','=',Auth::user()->id)
                 	         ->where('Codigo','=',$codigos[$i])
-                	         ->decrement('Existencia', $cantidades[$i]);
+                	         ->decrement('Existencia', $decremento);
                 	         
                 	
                 	

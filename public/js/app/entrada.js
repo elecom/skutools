@@ -5,19 +5,22 @@ var codigos = new Array();
 var precios = new Array();
 var cantidades = new Array();
 var descripciones = new Array();
+var unidadmanejos = new Array();
 var iniciar;
 var a = 0;
 var ban = 0;
 //var indice;
 
-agregarItem = function(id, cantidad, precio, descripcion){
+agregarItem = function(id, cantidad, precio, descripcion, unidadmanejo){
     var codigo = String(id).substr(5);
     
     codigos.push(codigo);
     precios.push(precio);
     cantidades.push(cantidad);
+    unidadmanejos.push(unidadmanejo);
     descripciones.push(descripcion);
     
+        
     $('#txtCarrito').val((parseFloat($('#txtCarrito').val())+parseFloat(cantidad*precio)).toFixed(2)); 
     
     $('#qite-'+codigo).attr('value',cantidad).addClass('mostrar');
@@ -35,6 +38,7 @@ quitarItem = function(id){
     codigos.splice(indice, 1);
     precios.splice(indice, 1);
     cantidades.splice(indice, 1);
+    unidadmanejos.splice(indice, 1);
     descripciones.splice(indice, 1);
     
     $('#qite-'+codigo).removeAttr('value').removeClass('mostrar');
@@ -57,6 +61,7 @@ limpiarColAnadir = function(){
 	precios = new Array();
 	cantidades = new Array();
 	descripciones = new Array();
+        unidadmanejos = new Array();
 };
 
 enviarPedido = function(){
@@ -70,7 +75,8 @@ enviarPedido = function(){
       data:{
           codigos: codigos,
           precios: precios,
-          cantidades: cantidades
+          cantidades: cantidades,
+          unidadManejo: unidadmanejos
       },
       success: function(data){
             $.unblockUI();
@@ -207,7 +213,7 @@ mostrarProductos = function(){
                         $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>',{id:'prec-'+item.Codigo}).text(item.Precio))
                     )
                     .append(
-                        $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>').text(item.UnidadManejo))
+                        $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>',{id:'unim-'+item.Codigo}).text(item.UnidadManejo))
                     )
                     /*.append(
                         $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>').text(item.Entrada))
@@ -222,7 +228,7 @@ mostrarProductos = function(){
                         $('<td>', {style:'border: 1px solid #D0E5F5;', class:'centrado'})
                         .append($('<input>', {id:'cant-'+item.Codigo, type:'number', class:'der', style:'width:80px;', min:1, max:item.Existencia, value:1}))
                         .append($('<input>', {id:'aite-'+item.Codigo, type:'button', class:'boton-click', value:'+', title:'Agregar producto al carrito'}).on('click', function(){
-                            agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text());
+                            agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text(), $('#unim-'+item.Codigo).text());
                         }))
                         .append($('<input>', {id:'qite-'+item.Codigo, type:'button', class:'boton-click2 ocultar', title:'Quitar producto del carrito', style:'margin:0 auto;'}).on('click', function(){
                             quitarItem(this.id);
