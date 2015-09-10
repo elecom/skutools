@@ -30,7 +30,7 @@
         <input id="btnVerPedido" type="button" class="boton-click" value="Ver Pedido" title="Presione aquí para ver los detalles del pedido" style="margin-right: 10px;"/>
         <!--<input id="btnEliminarPedido" type="button" class="boton-click" value="Cancelar Pedido" title="Presione aquí para eliminar el pedido"/>-->
     </div>
-    <table id="tab_datosregistro" style="width: 1050px; margin: 0 auto;  margin-bottom: 50px; margin-top: 20px; font-size: 11px;">
+    <table id="tab_datosregistro" style="width: 1050px; margin: 0 auto;  margin-bottom: 20px; margin-top: 20px; font-size: 13px;">
             <thead>
                 <tr style="background-color: #D0E5F5; color: #2E6E9E;">
                     <!--<th style="width: 80px;" class="centrado"><label>C&oacute;digo</label></th>-->
@@ -46,6 +46,9 @@
             </thead>
             <tbody></tbody>
      </table>
+     <div style="width: 1050px; margin: 0 auto; text-align: right; padding-bottom: 5px; margin-bottom: 30px;">
+        <input id="btnVerPedido2" type="button" class="boton-click" value="Ver Pedido" title="Presione aquí para ver los detalles del pedido" style="margin-right: 10px;"/>
+     </div>
 </div>
 <div id="div_enviarpedido" class="ocultar">
     <table style="margin: 0 auto; width: 700px;" id="tab_enviarpedido">

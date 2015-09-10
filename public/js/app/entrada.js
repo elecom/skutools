@@ -11,22 +11,39 @@ var a = 0;
 var ban = 0;
 //var indice;
 
-agregarItem = function(id, cantidad, precio, descripcion, unidadmanejo){
-    var codigo = String(id).substr(5);
+multiple = function(existencia, unimanejo){
+    resto = parseInt(existencia) % parseInt(unimanejo);
     
-    codigos.push(codigo);
-    precios.push(precio);
-    cantidades.push(cantidad);
-    unidadmanejos.push(unidadmanejo);
-    descripciones.push(descripcion);
+    if(resto === 0){
+        return true;
+    }
     
-        
-    $('#txtCarrito').val((parseFloat($('#txtCarrito').val())+parseFloat(cantidad*precio)).toFixed(2)); 
+    return false;
+};
+
+agregarItem = function(id, cantidad, precio, descripcion, unidadmanejo, existencia){
+    if(parseInt(existencia) < parseInt(unidadmanejo)){
+        alert('La existencia es menor que la unidad de manejo.');
+    }
+    /*else if(!multiple(existencia,unidadmanejo)){
+        alert('La existencia no es multiplo de la unidad de manejo.');
+    }*/
+    else{
+        var codigo = String(id).substr(5);
     
-    $('#qite-'+codigo).attr('value',cantidad).addClass('mostrar');
-    $('#cant-'+codigo).addClass('ocultar');
-    $('#aite-'+codigo).addClass('ocultar');
-    
+        codigos.push(codigo);
+        precios.push(precio);
+        cantidades.push(cantidad);
+        unidadmanejos.push(unidadmanejo);
+        descripciones.push(descripcion);
+
+
+        $('#txtCarrito').val((parseFloat($('#txtCarrito').val())+parseFloat(cantidad*precio)).toFixed(2)); 
+
+        $('#qite-'+codigo).attr('value',cantidad).addClass('mostrar');
+        $('#cant-'+codigo).addClass('ocultar');
+        $('#aite-'+codigo).addClass('ocultar');
+    }
 };
 
 quitarItem = function(id){
@@ -102,8 +119,9 @@ enviarPedido = function(){
                           alert(mensaje);
                       }  
                       else{
-                          mensaje = "Número de Orden: "+data['NROORDEN']+".\nNúmero de Pedido: "+data['NROPEDIDO'];
-                          alert(mensaje);
+                          var n_orden = data['NROORDEN'];
+                          var n_pedido = data['NROPEDIDO'];
+                          
                           $.ajax({
                               url: 'actualizarPedido',
                               type: 'POST',
@@ -114,12 +132,15 @@ enviarPedido = function(){
                                   status: 'POR PROCESAR'
                               }
                           }).done(function(data){
-                              
+                              mostrarProductos();
+                              mensaje = "Número de Orden: "+n_orden+".\nNúmero de Pedido: "+n_pedido+"\nObservacion: Su pedido esta en proceso.";
+                              alert(mensaje);
                           }).fail(function(){
-                              
+                             console.log('Error'); 
                           }).always(function(){
                               
                           });
+                          
                       }
                       
                       $('#div_enviarpedido').dialog('close');
@@ -220,7 +241,7 @@ mostrarProductos = function(){
 
                 $('#tab_datosregistro').find('tbody')
                 .append(
-                    $('<tr>', {style:'border: 1px solid #D0E5F5;font-size:11px;'})
+                    $('<tr>', {style:'border: 1px solid #D0E5F5;font-size:13px;'})
                     .append(
                         $('<td>', {id:'cod-'+item.Codigo, class:'centrado', style:'border: 1px solid #D0E5F5;'}).append($('<label>').text(item.Codigo))
                     )
@@ -237,7 +258,7 @@ mostrarProductos = function(){
                         $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>').text(item.Entrada))
                     )*/
                     .append(
-                        $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>').text(item.Existencia))
+                        $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>',{id:'exis-'+item.Codigo}).text(item.Existencia))
                     )
                     .append(
                         $('<td>', {class:'centrado', style:'border: 1px solid #D0E5F5;'}).append($('<label>').text(vencimiento))
@@ -246,7 +267,7 @@ mostrarProductos = function(){
                         $('<td>', {style:'border: 1px solid #D0E5F5;', class:'centrado'})
                         .append($('<input>', {id:'cant-'+item.Codigo, type:'number', class:'der', style:'width:80px;', min:1, max:item.Existencia, value:1}))
                         .append($('<input>', {id:'aite-'+item.Codigo, type:'button', class:'boton-click', value:'+', title:'Agregar producto al carrito'}).on('click', function(){
-                            agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text(), $('#unim-'+item.Codigo).text());
+                            agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text(), $('#unim-'+item.Codigo).text(), $('#exis-'+item.Codigo).text());
                         }))
                         .append($('<input>', {id:'qite-'+item.Codigo, type:'button', class:'boton-click2 ocultar', title:'Quitar producto del carrito', style:'margin:0 auto;'}).on('click', function(){
                             quitarItem(this.id);
@@ -282,6 +303,7 @@ configextra = function(){
     });
     
     $('#btnVerPedido').on('click', verPedido);
+    $('#btnVerPedido2').on('click', verPedido);
     $('#btnEnviar').on('click', enviarPedido);
     $('#btnCancelar').on('click', cancelarPedido);
     $('#div_enviarpedido').css('font-size','11px');
@@ -305,6 +327,7 @@ actualizarExistencias = function(){
         _worker_existencia.addEventListener('message', function(e){
             console.log(e.data);
             ban = 0;
+            mostrarProductos();
         }, false);
         _worker_existencia.addEventListener('error', function(e){
             console.log('Error: '+e.data);
@@ -338,7 +361,7 @@ mostrarBandeja = function(){
     var d = new Date();
     begin = d.getTime();
     
-    mostrarProductos();
+    //mostrarProductos();
     while(a === 0){
         d = new Date();
         if(d.getTime()-begin>15000){
@@ -366,6 +389,7 @@ mostrarBandeja = function(){
 inicio = function(){
     limpiar();
     configextra();
+    mostrarProductos();
     
     // Trabajador para cargar el catalogo y producto diario
     _worker_producto = new Worker('worker_producto.js');
