@@ -1,0 +1,177 @@
+/**
+Hoja de Estilo Personalizada
+*/
+
+/* General */
+.centrado{
+    text-align: center;
+}
+
+.izq{
+    text-align: left;
+}
+
+.der{
+    text-align: right;
+}
+
+.jutificado{
+    text-align: justify;
+}
+
+.ocultar{
+    display: none;
+}
+
+.mostrar{
+    display: block;
+}
+
+/* fin de General */
+
+/* Pagina: index.php */
+/* Inicio index */
+/* Elementos */
+
+/*#lblCedula{
+    font-style: italic;
+}*/
+
+/* Identificadores */
+#contenedor_index{
+    width: 500px;
+    height: auto;
+    min-height: 200px;
+    border: 1px solid #166294;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px #888;
+    margin: auto;
+    margin-top: 50px;
+}
+
+#tabDatosUsuario_index{
+    width: 250px;
+    margin: auto;
+}
+
+#div_sesion_index{
+    margin: auto;
+    margin-top: 30px;
+}
+
+#botones_index{
+    margin: auto;
+    width: 250px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+/* Clases */
+
+/*.colIzq{
+    text-align: right;
+    font-style: italic;
+    /*background-color: rgb(67, 216, 253);*/
+    /*background-color: rgba(147, 207, 241, 0.84);*/
+    /*background-color: #d0e5f5;*/
+    /*color: #fff;*/
+   /* color: #2e6e9e;
+    padding-right:10px;
+    width: 100px;
+*/
+
+/*.etiq{
+    font-family: "Helvetica";
+    font-size: 12px;
+}*/
+
+/*.fondo-input{
+    background-color: rgb(255, 255, 255);
+*/
+
+
+
+.titulo_index{
+    font-family: "Helvetica";
+    display: block;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    padding: 2px;
+}
+
+.titulo-principal_index{
+    font-family: "Helvetica";
+    display: block;
+    font-size: 16px;
+    text-align:center;
+    font-weight: bold;
+}
+.fondo-titulos{
+    background: #485AE7;
+    color: #fff;
+}
+.fondo-titulo-principal_index{
+    /*background: rgba(147, 207, 241, 0.84);*/
+    background-color: #d0e5f5;
+    /*color: #fff;*/
+    color: #2e6e9e;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /*text-shadow: 0.1em 0.1em 0.2em #333;*/
+    text-shadow: 0.1em 0.2em 0.6em #333;
+    padding: 5px;
+}
+
+.fondo-titulo-footer_index{
+    font-family: Arial;
+    /*font-style: italic;*/
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+    /*background: rgba(147, 207, 241, 0.84);*/
+    background-color: #d0e5f5;
+    /*color: #fff;*/
+    color: #2e6e9e;
+    padding: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-shadow: 0.1em 0.2em 0.6em #333;
+    margin-top: 60px;
+}
+
+.originalTextareaInfo {
+    font-size: 12px;
+    color: #000000;
+    font-family: Tahoma, sans-serif;
+    text-align: right
+}
+
+.warningInfo {
+    font-size: 12px;
+    color: #FF0000;
+    font-family: Tahoma, sans-serif;
+    text-align: right
+}
+.negrita{
+    font-weight: bold;
+}
+.fuente_tooltip{
+                font-size: 11px;
+}
+/* Fin index */
+
+
+/* Pagina: principal.php */
+/* Inicio principal */
+
+#tabNuevoEquipo{
+    margin: auto;
+    width: 200px;
+    text-align: center;
+}
+#visor_nuevo_equipo{
+    margin: auto;
+    width: 200px;
+}
