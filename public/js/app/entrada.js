@@ -256,7 +256,6 @@ configextra = function(){
         $.uiTableFilter(tabla, this.value);
     });
     
-    
     $('#btnVerPedido').on('click', verPedido);
     $('#btnEnviar').on('click', enviarPedido);
     $('#btnCancelar').on('click', cancelarPedido);
