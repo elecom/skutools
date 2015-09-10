@@ -9,9 +9,9 @@
     </head>
     <body>
         <div id="contenedor_principal">
-            <div id="cabecera" style="width: 1200px; border: 1px solid #888; height: 100px; margin: 0 auto; margin-bottom: 10px;text-align: center;">
+            {{--<div id="cabecera" style="width: 1200px; border: 1px solid #888; height: 100px; margin: 0 auto; margin-bottom: 10px;text-align: center;">
                 <h1>Cabecera</h1>
-            </div>
+            </div>--}}
             <div id="menu">
                 <ul class="nav">
                     <li><a href="#" style="color:#2e6e9e; font-weight: bold; " id="a_usuario">((<?php echo Auth::user()->email; ?>))</a>

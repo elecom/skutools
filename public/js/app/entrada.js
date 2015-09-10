@@ -178,9 +178,9 @@ mostrarProductos = function(){
       url:'mostrarProductos',
       type:'POST',
       dataType: 'json',
-      /*beforeSend: function() {
+      beforeSend: function() {
         $.blockUI({message: "Cargando Productos...", overlayCSS: {backgroundColor: 'rgba(147, 207, 241, 0.84)'}});
-      },*/
+      },
       success: function(data){
         //$.unblockUI();
         
@@ -245,7 +245,7 @@ mostrarProductos = function(){
   }).fail(function(){
          // $.unblockUI();
   }).always(function(){
-      //$.unblockUI();
+      $.unblockUI();
   });  
 };
 
