@@ -25,6 +25,7 @@ Route::group(['before' => 'auth'], function(){
     Route::get('/entrada', 'HomeController@entrada');
     Route::get('/tomarpedido', 'HomeController@tomarPedido');
     Route::post('/mostrarProductos', 'HomeController@mostrarProductos');
+    Route::post('/actualizarPedido', 'HomeController@actualizarPedido');
     Route::post('/enviarPedido', 'HomeController@guardarPedido');
     Route::post('/restEnviarPedido', 'APIRestController@colocarPedido');
     Route::get('/obtenerCatalogo','APIRestController@obtenerCatalogo');
@@ -460,3 +461,18 @@ Route::get('/envio2', function(){
         }
     }
 });
+
+/*Route::get('/actualizado', function(){
+    //$p = Pedido::where('NumeroPedido','=','2830150006')->first();
+    $p = Pedido::where('NumeroPedido','=','2830150006')
+                        ->where('CodigoCliente','=','2830')
+                        ->first();
+    
+    $p->Status = 'POR PROCESAR';
+    $p->NumeroOrden = '1000000058';
+    $p->Enviado = 1;
+    $p->save();
+    
+    echo $p->NumeroOrden;
+    
+});*/

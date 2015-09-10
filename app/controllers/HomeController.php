@@ -29,6 +29,24 @@ class HomeController extends BaseController {
             return View::make('principal.tomapedido');
         }
         
+        public function actualizarPedido(){
+            if(Request::ajax()){
+                
+                $p = Pedido::where('NumeroPedido','=',Input::get('n_pedido'))
+                        ->where('CodigoCliente','=',Auth::user()->Codigo_Cliente)
+                        ->first();
+                
+                $p->NumeroOrden = Input::get('n_orden');
+                $p->Status = 'POR PROCESAR';
+                $p->Enviado = 1;
+                
+                $p->save();
+                
+                return Response::json(array('actualizado'=>true));
+                
+            }
+        }
+        
 	public function guardarProducto(){
 		if(Request::ajax()){
 			$data = Input::all();

@@ -79,7 +79,8 @@ enviarPedido = function(){
           unidadManejo: unidadmanejos
       },
       success: function(data){
-            $.unblockUI();
+            //$.unblockUI();
+            limpiarColAnadir();
             
             if(data["guardado"] === true){
                 $.ajax({
@@ -103,6 +104,22 @@ enviarPedido = function(){
                       else{
                           mensaje = "Número de Orden: "+data['NROORDEN']+".\nNúmero de Pedido: "+data['NROPEDIDO'];
                           alert(mensaje);
+                          $.ajax({
+                              url: 'actualizarPedido',
+                              type: 'POST',
+                              dataType: 'json',
+                              data:{
+                                  n_pedido: data['NROPEDIDO'],
+                                  n_orden: data['NROORDEN'],
+                                  status: 'POR PROCESAR'
+                              }
+                          }).done(function(data){
+                              
+                          }).fail(function(){
+                              
+                          }).always(function(){
+                              
+                          });
                       }
                       
                       $('#div_enviarpedido').dialog('close');
@@ -112,7 +129,7 @@ enviarPedido = function(){
                 	alert('No se pudo enviar el pedido');
                 }).always(function(){
                     $.unblockUI();
-                    limpiarColAnadir();
+                    
                 });
             }
       }
@@ -120,7 +137,8 @@ enviarPedido = function(){
           alert('No se pudo guardar el pedido');
   }).always(function(){
     $.unblockUI();
-    limpiarColAnadir();
+    //limpiarColAnadir();
+    $('#txtCarrito').val(parseFloat(0).toFixed(2));
   });   
 };
 
@@ -252,6 +270,7 @@ mostrarProductos = function(){
          // $.unblockUI();
   }).always(function(){
       $.unblockUI();
+      limpiarColAnadir();
   });  
 };
 
