@@ -6,6 +6,7 @@
         {{ HTML::style('css/jquery-ui-1.10.3.custom.min.css') }}
         {{ HTML::style('css/jquery.notice.css') }}
         {{ HTML::style('css/styles.css') }}
+        @yield('script_css')
     </head>
     <body>
         <div id="contenedor_principal">

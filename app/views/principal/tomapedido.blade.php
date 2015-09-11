@@ -5,6 +5,12 @@
 @section('contenido')
 <div style="width: 900px; margin: 0 auto; text-align: center;">
     <div id="div_datosproductos" style="width: 900px; margin: 0 auto; min-height: 200px; max-height: 300px; border: 1px solid #D0E5F5; overflow-y: scroll; border-radius: 5px;">
+        <!-- Cabecera de tabla -->
+        <div style="width: 900px; overflow: hidden;">
+            
+        </div>
+        <div style="overflow: scroll;"></div>
+        <div></div>
         <table id="tab_datosproductos" style="width: 900px; margin: 0 auto; font-size: 13px;">
             <thead>
                 <tr style="background-color: #D0E5F5; color: #2E6E9E;">
@@ -136,36 +142,22 @@
     <div id="div_busqueda" style="width: 900px; margin: 0 auto; margin-top: 10px; margin-bottom: 10px; border: 1px solid #D0E5F5; height: 50px; border-radius: 5px;">
         
     </div>
-    <!--<div id="div_datospedido" style="width: 900px; margin: 0 auto; min-height: 200px; border: 1px solid #D0E5F5; overflow-y: auto; border-radius: 5px;">
-        <table id="tab_datosregistro" style="width: 900px; margin: 0 auto;  font-size: 13px;">
-                <thead>
-                    <tr style="background-color: #D0E5F5; color: #2E6E9E;">
-                        <th style="width: 500px;" class="izq"><label>Descripci&oacute;n</label></th>
-                        <th style="width: 120px;"><label>Cantidad</label></th>
-                        <th style="width: 100px;" class="centrado"><label>Precio</label></th>
-                        <th style="width: 120px;"><label>Total</label></th>
-                        <th style="width: 120px;"><label>Acci&oacute;n</label></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-         </table>
-    </div>-->
-    <div id="div_datospedidos" style="width: 900px;">
+    <div id="div_datospedidos" style="width: 900px; border: 1px solid #D0E5F5; border-radius: 5px; margin-bottom: 50px;">
         <div style="overflow: hidden;" id="DivHeaderRow">
             <table>
                 <thead>
                     <tr style="background-color: #D0E5F5; color: #2E6E9E;">
                         <th style="width: 500px;" class="izq"><label>Descripci&oacute;n</label></th>
-                        <th style="width: 120px;"><label>Cantidad</label></th>
+                        <th style="width: 100px;"><label>Cantidad</label></th>
                         <th style="width: 100px;" class="centrado"><label>Precio</label></th>
-                        <th style="width: 120px;"><label>Total</label></th>
-                        <th style="width: 120px;"><label>Acci&oacute;n</label></th>
+                        <th style="width: 100px;"><label>Total</label></th>
+                        <th style="width: 100px;"><label>Acci&oacute;n</label></th>
                     </tr>
                 </thead>
             </table>
         </div>
 
-        <div style="overflow:scroll; max-height: 200px;" onscroll="OnScrollDiv(this)" id="DivMainContent">
+        <div style="overflow-y: scroll; overflow-x: hidden; max-height: 200px; " onscroll="OnScrollDiv(this)" id="DivMainContent">
             <!--Place Your Table Heare-->
             <!--<table><tr><td>.......</td></tr></table>-->
             <table id="tab_datosregistro" style="width: 900px; margin: 0 auto;  font-size: 13px;">
