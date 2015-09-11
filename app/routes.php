@@ -24,6 +24,7 @@ Route::group(['before' => 'auth'], function(){
     Route::get('/inicio', 'HomeController@inicio');
     Route::get('/entrada', 'HomeController@entrada');
     Route::get('/tomarpedido', 'HomeController@tomarPedido');
+    Route::post('/buscarProducto', 'HomeController@buscarProducto');
     Route::post('/mostrarProductos', 'HomeController@mostrarProductos');
     Route::post('/actualizarPedido', 'HomeController@actualizarPedido');
     Route::post('/enviarPedido', 'HomeController@guardarPedido');

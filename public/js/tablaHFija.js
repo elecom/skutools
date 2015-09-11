@@ -1,9 +1,10 @@
-function MakeStaticHeader(gridId, height, width, headerHeight, isFooter) {
+
+function MakeStaticHeader(gridId, height, width, headerHeight, isFooter, header, content, footer) {
     var tbl = document.getElementById(gridId);
     if (tbl) {
-        var DivHR = document.getElementById('DivHeaderRow');
-        var DivMC = document.getElementById('DivMainContent');
-        var DivFR = document.getElementById('DivFooterRow');
+        var DivHR = document.getElementById(header);
+        var DivMC = document.getElementById(content);
+        var DivFR = document.getElementById(footer);
 
         //*** Set divheaderRow Properties ****
         DivHR.style.height = headerHeight + 'px';
@@ -44,8 +45,8 @@ function MakeStaticHeader(gridId, height, width, headerHeight, isFooter) {
 }
 
 
-function OnScrollDiv(Scrollablediv) {
-    document.getElementById('DivHeaderRow').scrollLeft = Scrollablediv.scrollLeft;
-    document.getElementById('DivFooterRow').scrollLeft = Scrollablediv.scrollLeft;
+function OnScrollDiv(Scrollablediv, headerRow, footerRow) {
+    document.getElementById(headerRow).scrollLeft = Scrollablediv.scrollLeft;
+    document.getElementById(footerRow).scrollLeft = Scrollablediv.scrollLeft;
 }
 

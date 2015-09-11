@@ -47,7 +47,45 @@ class HomeController extends BaseController {
             }
         }
         
-	public function guardarProducto(){
+        public function buscarProducto(){
+            if(Request::ajax()){
+                $productos = DB::select("
+                        SELECT 
+                            p.Codigo AS Codigo,
+                            p.Nombre AS Descripcion,
+                            i.Existencia AS Existencia,
+                            i.Precio AS Precio
+                         FROM 
+                            productos AS p,
+                            inventarios AS i
+                            inventario_producto AS ip
+                         WHERE
+                            i.user_id = ? AND
+                            i.id = ip.inventario_id AND
+                            ip.producto_id = p.id AND
+                            (
+                                p.Codigo LIKE '?%' OR
+                                p.Nombre LIKE '?%' OR
+                                p.CodigoBarra LIKE '?%'
+                            )", 
+                        array(Auth::user()->id, Input::get('palabra'), Input::get('palabra'), Input::get('palabra')));
+                
+                if($productos){
+                    return Response::json(array(
+                        "encontrado" => true,
+                        "productos" => $productos
+                    ));
+                }
+                else{
+                    return Response::json(array(
+                        "encontrado" => false
+                    ));
+                }
+                
+            }
+        }
+
+        public function guardarProducto(){
 		if(Request::ajax()){
 			$data = Input::all();
 			
