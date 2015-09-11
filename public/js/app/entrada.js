@@ -9,6 +9,7 @@ var unidadmanejos = new Array();
 var iniciar;
 var a = 0;
 var ban = 0;
+var ban2 = 0;
 //var indice;
 
 multiple = function(existencia, unimanejo){
@@ -46,7 +47,7 @@ agregarItem = function(id, cantidad, precio, descripcion, unidadmanejo, existenc
     }
 };
 
-quitarItem = function(id){
+quitarItem = function(id, umf){
     var codigo = String(id).substr(5);
     var indice = codigos.indexOf(codigo);
     
@@ -59,7 +60,7 @@ quitarItem = function(id){
     descripciones.splice(indice, 1);
     
     $('#qite-'+codigo).removeAttr('value').removeClass('mostrar');
-    $('#cant-'+codigo).attr('value','1').removeClass('ocultar');
+    $('#cant-'+codigo).attr('value',umf).removeClass('ocultar');
     $('#aite-'+codigo).removeClass('ocultar');
 };
 
@@ -235,7 +236,7 @@ mostrarProductos = function(){
             
             $('#tab_datosregistro').find('tbody').empty();
             $.map(data['productos'], function(item){
-                var html = (item.Nuevo) ? item.Nombre+" (UMF "+item.UMF+") <span style='background-color: #57a957; color: #fff; margin-left: 3px; padding: 3px;'>Nuevo</span>" : item.Nombre+" (UMF "+item.UMF+")";
+                //var html = (item.Nuevo) ? item.Nombre+" (UMF "+item.UMF+") <span style='background-color: #57a957; color: #fff; margin-left: 3px; padding: 3px;'>Nuevo</span>" : item.Nombre+" (UMF "+item.UMF+")";
 
                 var vencimiento = String(item.Vencimiento).substr(6,2)+'/'+String(item.Vencimiento).substr(4,2)+'/'+String(item.Vencimiento).substr(0,4);
 
@@ -246,7 +247,7 @@ mostrarProductos = function(){
                         $('<td>', {id:'cod-'+item.Codigo, class:'centrado', style:'border: 1px solid #D0E5F5;'}).append($('<label>').text(item.Codigo))
                     )
                     .append(
-                        $('<td>', {class:'izq', style:'border: 1px solid #D0E5F5;'}).append($('<label>',{id:'desc-'+item.Codigo}).html(html))
+                        $('<td>', {class:'izq', style:'border: 1px solid #D0E5F5;'}).append($('<label>',{id:'desc-'+item.Codigo}).text(item.Nombre+" (UMF "+item.UMF+")"))
                     )
                     .append(
                         $('<td>', {class:'der', style:'border: 1px solid #D0E5F5;'}).append($('<label>',{id:'prec-'+item.Codigo}).text(item.Precio))
@@ -265,12 +266,12 @@ mostrarProductos = function(){
                     )
                     .append(
                         $('<td>', {style:'border: 1px solid #D0E5F5;', class:'centrado'})
-                        .append($('<input>', {id:'cant-'+item.Codigo, type:'number', class:'der', style:'width:80px;', min:1, max:item.Existencia, value:1}))
+                        .append($('<input>', {id:'cant-'+item.Codigo, type:'number', class:'der', style:'width:80px;', min:item.UMF, max:item.Existencia, value:item.UMF, step:item.UMF}))
                         .append($('<input>', {id:'aite-'+item.Codigo, type:'button', class:'boton-click', value:'+', title:'Agregar producto al carrito'}).on('click', function(){
                             agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text(), $('#unim-'+item.Codigo).text(), $('#exis-'+item.Codigo).text());
                         }))
                         .append($('<input>', {id:'qite-'+item.Codigo, type:'button', class:'boton-click2 ocultar', title:'Quitar producto del carrito', style:'margin:0 auto;'}).on('click', function(){
-                            quitarItem(this.id);
+                            quitarItem(this.id, item.UMF);
                         }))
                     )
                 );
@@ -293,6 +294,7 @@ mostrarProductos = function(){
       $.unblockUI();
       limpiarColAnadir();
   });  
+  $('#txtBuscar').focus();
 };
 
 configextra = function(){
@@ -365,21 +367,14 @@ mostrarBandeja = function(){
     while(a === 0){
         d = new Date();
         if(d.getTime()-begin>15000){
-            _worker_inventario = new Worker('worker_inventario.js');
-            _worker_inventario.addEventListener('message', function(e){
-                console.log(e.data);
-            }, false);
-            _worker_inventario.addEventListener('error', function(e){
-                console.log('Error: '+e.data);
-            }, false);
-            _worker_inventario.postMessage('');
+            
             
             a = 1;
         }
     }
     
     if(ban === 0){
-        setInterval(actualizarExistencias, 240000);
+        setInterval(actualizarExistencias, 2400000);
     }
     else{
         setInterval(mostrarBandeja, 120000);
@@ -387,28 +382,68 @@ mostrarBandeja = function(){
 };
 
 inicio = function(){
-    limpiar();
     configextra();
-    mostrarProductos();
+    var intObtenerCatalogo = setInterval(function(){
+        if(ban2 === 0){
+            obtenerCatalogo();
+            var intMostrarProducto = setInterval(function(){
+                mostrarProductos();
+            }, 180000);
+        }
+        else{
+            clearInterval(intObtenerCatalogo);
+            clearInterval(intMostrarProducto);
+            console.log('parado obtenerCatalogo y MostrarProductos');
+            
+        }
+    }, 240000);
     
+    
+};
+
+/*
+ * Solo se ejeucuta una vez al día por cliente
+ */
+function obtenerCatalogo(){
+    console.log('entro obtenerCatalogo');
     // Trabajador para cargar el catalogo y producto diario
     _worker_producto = new Worker('worker_producto.js');
     _worker_producto.addEventListener('message', function(e){
-        console.log(e.data);
+           console.log(e.data);
+           ban2 = 1;
     }, false);
     _worker_producto.addEventListener('error', function(e){
-        console.log('Error: '+e.data);
+            console.log('Error: '+e.data);
     }, false);
     _worker_producto.postMessage('');
-    
-    //mostrarProductos();
-    mostrarBandeja();
-    
-    //setInterval(limpiarYRefrescar, 120000);
-    $('#txtBuscar').focus();
 };
 
+/*
+ * Solo se ejeucuta una vez al día por cliente
+ */
+function obtenerInventario(){
+    _worker_inventario = new Worker('worker_inventario.js');
+    _worker_inventario.addEventListener('message', function(e){
+        console.log(e.data);
+    }, false);
+    _worker_inventario.addEventListener('error', function(e){
+        console.log('Error: '+e.data);
+    }, false);
+    _worker_inventario.postMessage('');
+}
+
+function obtenerExistencia(){
+    
+}
+
+function obtenerEntradasRecientes(){
+    
+}
+
+
 $(document).on('ready', function(){
+   limpiar();
+   mostrarProductos(); 
    inicio(); 
 });
 

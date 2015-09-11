@@ -73,7 +73,7 @@ class APIRestController extends \BaseController {
 
                  }
                  // El producto ya existe en la base de datos (se actualiza)
-                 else{
+                 /*else{
                       $produ = Producto::find($prod->id);
                       $produ->Codigo = $p->Codigo;
                       $produ->CodigoBarra = $p->CodigoBarra;
@@ -96,7 +96,7 @@ class APIRestController extends \BaseController {
                       $produ->Administrado = $p->Administrado;
 
                       $produ->save();
-                  }
+                  }*/
                 }
              }
         }
@@ -274,6 +274,34 @@ class APIRestController extends \BaseController {
         /*
          * Método para obtener un listado con los laboratorios que proveen productos a Droguería
          */
+        public function obtenerLaboratorios(){
+            $autorizacion = json_decode($this->obtenerToken());
+                
+                set_time_limit(10000);
+                    
+                $option = ['http' => [
+                                'method' => 'GET',
+                                'header' => ['Authorization: GUID '.$autorizacion->Guid,'Content-Type: application/json']
+                            ]];
+
+                $context = stream_context_create($option);
+
+                $laboratorios = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Proveedor/Listado", false, $context));
+                
+                if($laboratorios){
+                    foreach ($laboratorios->Proveedores->Proveedor as $p){
+                        
+                        $labo = Laboratorio::where('Codigo','=',$p->Codigo)->first();
+                        
+                        if(!$labo){
+                            $lab = new Laboratorio();
+                            $lab->Codigo = $p->Codigo;
+                            $lab->Nombre = $p->Nombre;
+                            $lab->save();
+                        }
+                    }
+                }
+        }
         
         /*
          * Función para actualizar inventario
