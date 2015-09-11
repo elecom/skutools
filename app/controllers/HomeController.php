@@ -57,7 +57,7 @@ class HomeController extends BaseController {
                             i.Precio AS Precio
                          FROM 
                             productos AS p,
-                            inventarios AS i
+                            inventarios AS i,
                             inventario_producto AS ip
                          WHERE
                             i.user_id = ? AND

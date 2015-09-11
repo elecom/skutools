@@ -22,6 +22,10 @@
                     'Ingreso',
                     'Administrado'
             ];
+            
+            public function laboratorio(){
+                return $this->belongsTo('Laboratorio');
+            }
                 
             public function detalles(){
                 return $this->hasMany('Detalle');

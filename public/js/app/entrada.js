@@ -379,7 +379,7 @@ mostrarBandeja = function(){
     }
     
     if(ban === 0){
-        setInterval(actualizarExistencias, 120000);
+        setInterval(actualizarExistencias, 240000);
     }
     else{
         setInterval(mostrarBandeja, 120000);

@@ -4,14 +4,15 @@
 };*/
 
 configextra = function(){
-  $('#txtBusqueda').on('keyup', function(e){
+  
+    $('#txtBusqueda').on('keyup', function(e){
      if($(this).val() !== ''){
          $.ajax({
             url: 'buscarProducto',
             type: 'POST',
             dataType: 'json',
             data:{
-                palabra: $(this).val()
+                palabra: $(this).val().toUpperCase()
             }
         }).done(function(data){
            $('#tab_datosproductos').find('tbody').empty();

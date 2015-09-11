@@ -213,13 +213,21 @@ class APIRestController extends \BaseController {
                 
                 foreach ($existencias->Existencias->Producto as $e){
                     
-                    $inve = DB::table('inventarios')
+                    /*$inve = DB::table('inventarios')
                             ->where('user_id','=',Auth::user()->id)
                             ->where('Codigo','=',$e->Codigo)
                             ->where('CodigoBarra','=',$e->CodigoBarra)
+                            ->where('updated_at','=',  Fecha::arreglarFecha2(Fecha::fechaActual()))
                             ->first();
+                    */
                     
-                    if(!$inve){
+                    $inve = Inventario::where('user_id','=',Auth::user()->id)
+                                               ->where('Codigo','=',$e->Codigo)
+                                               ->where('CodigoBarra','=',$e->CodigoBarra)
+                                               ->where('updated_at','=',Fecha::arreglarFecha2(Fecha::fechaActual()))
+                                               ->first();
+                    
+                    if($inve){
                         //$this->obtenerInventario();
                         continue;
                     }
@@ -263,6 +271,9 @@ class APIRestController extends \BaseController {
             
         }
         
+        /*
+         * Método para obtener un listado con los laboratorios que proveen productos a Droguería
+         */
         
         /*
          * Función para actualizar inventario

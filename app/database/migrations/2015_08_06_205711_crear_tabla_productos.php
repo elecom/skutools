@@ -17,7 +17,9 @@ class CrearTablaProductos extends Migration {
 			$table->bigIncrements('id');
                         $table->string('Codigo')->unique();
                         $table->string('CodigoBarra');
-                        $table->string('CodigoLaboratorio');
+                        $table->integer('laboratorio_id')
+                                ->references('id')
+                                ->on('laboratorios');
                         $table->string('Nombre');
                         $table->string('Tipo');
                         $table->string('Condicion');
