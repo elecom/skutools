@@ -29,9 +29,18 @@ Route::group(['before' => 'auth'], function(){
     Route::post('/actualizarPedido', 'HomeController@actualizarPedido');
     Route::post('/enviarPedido', 'HomeController@guardarPedido');
     Route::post('/restEnviarPedido', 'APIRestController@colocarPedido');
+    
+    /*
+     * 
+     */
     Route::get('/obtenerCatalogo','APIRestController@obtenerCatalogo');
     Route::get('/obtenerInventario','APIRestController@obtenerInventario');
     Route::get('/obtenerExistencia','APIRestController@obtenerExistencia');
+    Route::get('/obtenerEntradasRecientes','APIRestController@obtenerEntradasRecientes');
+    
+    /**
+     * 
+     */
     
 });
 

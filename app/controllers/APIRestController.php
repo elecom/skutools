@@ -2,10 +2,16 @@
 
 class APIRestController extends \BaseController {
         
-        /*
-         * Función para solicitar permiso de autenticacion
+        /**
+         * <====================== SEGURIDAD ===========================> 
          */
-         private function obtenerToken(){
+    
+        /**
+         * @name            obtenerToken
+         * 
+         * @description     Retorna permiso de autenticacion
+         */
+        private function obtenerTokenUsuario(){
              set_time_limit(2000);
              $option = ['http' => [
                 'method' => 'GET',
@@ -15,8 +21,19 @@ class APIRestController extends \BaseController {
              $context = stream_context_create($option);
              
              return file_get_contents('http://test.dronena.com:8083/REST/Cloud/Seguridad/Autenticacion', false, $context);
-         }
+        }
         
+        /**
+         * <============================= PRODUCTOS =========================>
+         */
+        
+        /**
+         * @name            obtenerCatalogo
+         * 
+         * @description     Retorna listado de productos, dado a que la información 
+         *                  de los maestros no cambian frecuentemente se recomienda 
+         *                  que su llamado se haga máximo una vez al día.
+         */
         public function obtenerCatalogo(){
              $chequeado = DB::table('chequeo_productos')
                      ->where('user_id','=',Auth::user()->id)
@@ -27,8 +44,7 @@ class APIRestController extends \BaseController {
                 DB::insert("INSERT INTO ldcsyste_dbskutools.`chequeo_productos` (user_id, fecha, hora) VALUES(?, CURRENT_DATE(),CURRENT_TIME())", array(Auth::user()->id)); 
                 
                 set_time_limit(10000);
-    
-                $autorizacion = json_decode($this->obtenerToken());    
+                $autorizacion = json_decode($this->obtenerTokenUsuario());    
 
                 $option = ['http' => [
                                 'method' => 'GET',
@@ -38,70 +54,55 @@ class APIRestController extends \BaseController {
                 $context = stream_context_create($option);
 
                 $productos = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Producto/Catalogo/Cliente/".Auth::user()->Codigo_Cliente, false, $context));
+                
+                if($productos){
+                    foreach ($productos->Catalogo->Producto as $p){
 
-                foreach ($productos->Catalogo->Producto as $p){
-                    
-                    $prod = DB::table('productos')
-                            ->where('Codigo','=',$p->Codigo)
-                            ->where('CodigoBarra','=',$p->CodigoBarra)
-                            ->first();
+                        $prod = DB::table('productos')
+                                ->where('Codigo','=',$p->Codigo)
+                                ->where('CodigoBarra','=',$p->CodigoBarra)
+                                ->first();
 
-                    // El producto no existe en base de datos (se agrega a la base de datos)
-                    if(!$prod){
-                        //echo "No encontrado codigo: ".$p->Codigo."<br>";
-                        $produ = new Producto();
-                        $produ->Codigo = $p->Codigo;
-                        $produ->CodigoBarra = $p->CodigoBarra;
-                        $produ->CodigoLaboratorio = $p->CodigoLaboratorio;
-                        $produ->Nombre = $p->Nombre;
-                        $produ->Tipo = $p->Tipo;
-                        $produ->Condicion = $p->Condicion;
-                        $produ->GravaImpuesto = $p->GravaImpuesto;
-                        $produ->Fragil = $p->Fragil;
-                        $produ->Refrigerado = $p->Refrigerado;
-                        $produ->Toxico = $p->Toxico;
-                        $produ->PrincipioActivo = $p->PrincipioActivo;
-                        $produ->Clase = $p->Clase;
-                        $produ->Nuevo = $p->Nuevo;
-                        $produ->Marca = $p->Marca;
-                        $produ->ISV = $p->ISV;
-                        $produ->UMF = $p->UMF;
-                        $produ->PorcentajeUMF = $p->PorcentajeUMF;
-                        $produ->Ingreso = $p->Ingreso;
-                        $produ->Administrado = $p->Administrado;
-                        $produ->save();
-
+                        // El producto no existe en base de datos (se agrega a la base de datos)
+                        if(!$prod){
+                            //echo "No encontrado codigo: ".$p->Codigo."<br>";
+                            $produ = new Producto();
+                            $produ->Codigo = $p->Codigo;
+                            $produ->CodigoBarra = $p->CodigoBarra;
+                            $produ->CodigoLaboratorio = $p->CodigoLaboratorio;
+                            $produ->Nombre = $p->Nombre;
+                            $produ->Tipo = $p->Tipo;
+                            $produ->Condicion = $p->Condicion;
+                            $produ->GravaImpuesto = $p->GravaImpuesto;
+                            $produ->Fragil = $p->Fragil;
+                            $produ->Refrigerado = $p->Refrigerado;
+                            $produ->Toxico = $p->Toxico;
+                            $produ->PrincipioActivo = $p->PrincipioActivo;
+                            $produ->Clase = $p->Clase;
+                            $produ->Nuevo = $p->Nuevo;
+                            $produ->Marca = $p->Marca;
+                            $produ->ISV = $p->ISV;
+                            $produ->UMF = $p->UMF;
+                            $produ->PorcentajeUMF = $p->PorcentajeUMF;
+                            $produ->Ingreso = $p->Ingreso;
+                            $produ->Administrado = $p->Administrado;
+                            $produ->save();
+                        }
+                    }
                  }
-                 // El producto ya existe en la base de datos (se actualiza)
-                 /*else{
-                      $produ = Producto::find($prod->id);
-                      $produ->Codigo = $p->Codigo;
-                      $produ->CodigoBarra = $p->CodigoBarra;
-                      $produ->CodigoLaboratorio = $p->CodigoLaboratorio;
-                      $produ->Nombre = $p->Nombre;
-                      $produ->Tipo = $p->Tipo;
-                      $produ->Condicion = $p->Condicion;
-                      $produ->GravaImpuesto = $p->GravaImpuesto;
-                      $produ->Fragil = $p->Fragil;
-                      $produ->Refrigerado = $p->Refrigerado;
-                      $produ->Toxico = $p->Toxico;
-                      $produ->PrincipioActivo = $p->PrincipioActivo;
-                      $produ->Clase = $p->Clase;
-                      $produ->Nuevo = $p->Nuevo;
-                      $produ->Marca = $p->Marca;
-                      $produ->ISV = $p->ISV;
-                      $produ->UMF = $p->UMF;
-                      $produ->PorcentajeUMF = $p->PorcentajeUMF;
-                      $produ->Ingreso = $p->Ingreso;
-                      $produ->Administrado = $p->Administrado;
-
-                      $produ->save();
-                  }*/
-                }
              }
         }
         
-        
+        /**
+         * @name            obtenerInventario
+         * 
+         * @description     Retorna un listado con las existencias del producto, 
+         *                  precio, ofertas, lote, vencimiento y unidad de manejo 
+         *                  del producto. Se recomienda que este servicio se invoque 
+         *                  una vez al día de manera de obtener información de las 
+         *                  ofertas para los siguientes llamados para actualizar el 
+         *                  inventario debe invocarse el método “ObtenerExistencias”
+         */
         public function obtenerInventario(){
              $chequeado = DB::table('chequeo_inventarios')
                      ->where('user_id','=',Auth::user()->id)
@@ -115,8 +116,7 @@ class APIRestController extends \BaseController {
                         ->first();
                 
                 set_time_limit(10000);
-                
-                $autorizacion = json_decode($this->obtenerToken());    
+                $autorizacion = json_decode($this->obtenerTokenUsuario());    
                     
                 $option = ['http' => [
                                 'method' => 'GET',
@@ -190,17 +190,21 @@ class APIRestController extends \BaseController {
             }
         }
         
-        /*
-         * Función para actualizar las existencias del inventario
+        /**
+         * @name            obtenerExistencia
+         * 
+         * @description     Retorna un listado solamente con las existencias y precios del producto, 
+         *                  este servicio por tener solo existencias es el más liviano y rápido de 
+         *                  consumir por lo cual se recomienda que los sistemas que actualicen su 
+         *                  inventario varias veces al día invoquen este método.
          */
         public function obtenerExistencia(){
-                $autorizacion = json_decode($this->obtenerToken());  
-                
                 $sede = DB::table('sedes')
                         ->where('id','=',Auth::user()->sede_id)
                         ->first();
-                
+             
                 set_time_limit(10000);
+                $autorizacion = json_decode($this->obtenerTokenUsuario()); 
                     
                 $option = ['http' => [
                                 'method' => 'GET',
@@ -211,48 +215,42 @@ class APIRestController extends \BaseController {
 
                 $existencias = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Producto/Existencias/".$sede->Codigo."/Cliente/".Auth::user()->Codigo_Cliente, false, $context));
                 
-                foreach ($existencias->Existencias->Producto as $e){
-                    
-                    /*$inve = DB::table('inventarios')
-                            ->where('user_id','=',Auth::user()->id)
-                            ->where('Codigo','=',$e->Codigo)
-                            ->where('CodigoBarra','=',$e->CodigoBarra)
-                            ->where('updated_at','=',  Fecha::arreglarFecha2(Fecha::fechaActual()))
-                            ->first();
-                    */
-                    
-                    $inve = Inventario::where('user_id','=',Auth::user()->id)
-                                               ->where('Codigo','=',$e->Codigo)
-                                               ->where('CodigoBarra','=',$e->CodigoBarra)
-                                               ->where('updated_at','=',Fecha::arreglarFecha2(Fecha::fechaActual()))
-                                               ->first();
-                    
-                    if($inve){
-                        //$this->obtenerInventario();
-                        continue;
-                    }
-                    else{
-                        $inv = Inventario::find($inve->id);
-                        $inv->Precio = $e->Precio;
-                        $inv->Descuento = $e->Descuento;
-                        $inv->Existencia = $e->Existencia;
-                        $inv->save();
+                if($existencias){
+                    foreach ($existencias->Existencias->Producto as $e){
+
+                        $inve = Inventario::where('user_id','=',Auth::user()->id)
+                                                   ->where('Codigo','=',$e->Codigo)
+                                                   ->where('CodigoBarra','=',$e->CodigoBarra)
+                                                   ->where('updated_at','<>',Fecha::arreglarFecha2(Fecha::fechaActual()))
+                                                   ->first();
+
+                        if(!$inve){
+                            continue;
+                        }
+                        else{
+                            $inve->Precio = $e->Precio;
+                            $inve->Descuento = $e->Descuento;
+                            $inve->Existencia = $e->Existencia;
+                            $inve->save();
+                        }
                     }
                 }
-                
         }
         
-        /*
-         * Función para obtener las entradas recientes de productos
+        /**
+         * @name            obtenerEntradasRecientes
+         * 
+         * @description     Retorna un listado con los productos que estaban en falla y que se 
+         *                  recibieron en el día.
          */
         public function obtenerEntradasRecientes(){
-                $autorizacion = json_decode($this->obtenerToken());
                 
                 $sede = DB::table('sedes')
                         ->where('id','=',Auth::user()->sede_id)
                         ->first();
                 
                 set_time_limit(10000);
+                $autorizacion = json_decode($this->obtenerTokenUsuario());
                     
                 $option = ['http' => [
                                 'method' => 'GET',
@@ -262,22 +260,33 @@ class APIRestController extends \BaseController {
                 $context = stream_context_create($option);
 
                 $entradas_recientes = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Producto/Entradas/".$sede->Codigo."/Cliente/".Auth::user()->Codigo_Cliente, false, $context));
+                
+                if($entradas_recientes){
+                    
+                }
         }
         
         /*
-         * Función para obtener los productos en promoción
+         * @name             obtenerProductoPromocion
+         * 
+         * @description      Retorna un listado con los producto que están en promoción para la fecha, aunque esta información
+         *                   viaja en el método de “ObtenerInventario” se coloca a disposición para aquellos que se vean en
+         *                   la necesidad actualizar las ofertas durante el día.
          */
         public function obtenerProductoPromocion(){
             
         }
         
-        /*
-         * Método para obtener un listado con los laboratorios que proveen productos a Droguería
+        /**
+         * @name            obtenerLaboratorios
+         * 
+         * @description     Retorna un listado con los Laboratorios que proveen 
+         *                  productos a Droguería.
          */
         public function obtenerLaboratorios(){
-            $autorizacion = json_decode($this->obtenerToken());
-                
+            
                 set_time_limit(10000);
+                $autorizacion = json_decode($this->obtenerTokenUsuario());
                     
                 $option = ['http' => [
                                 'method' => 'GET',
@@ -303,50 +312,14 @@ class APIRestController extends \BaseController {
                 }
         }
         
-        /*
-         * Función para actualizar inventario
-         * Se invocará cada 4 min
+        /**
+         *  <================================ VENTA =============================>
          */
-        public function actualizarInventario(){
-           if(Request::ajax()){
-               $autorizacion = json_decode($this->obtenerToken());
-               
-               $sede = DB::table('sedes')
-                       ->where('id','=',Auth::user()->sede_id)
-                       ->first();
-               
-               $option = ['http' => [
-                                'method' => 'GET',
-                                'header' => ['Authorization: GUID '.$autorizacion->Guid,'Content-Type: application/json;']
-                            ]];
-
-                $context = stream_context_create($option);
-
-                $existencias = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Producto/Existencias/".$sede->Codigo."/Cliente/".Auth::user()->Codigo_Cliente, false, $context));
-                
-                foreach ($existencias->Existencias->Producto as $e){
-                    $item = DB::table('inventarios')
-                                    ->where('user_id','=',Auth::user()->id)
-                                    ->where('Codigo','=',$e->Codigo)
-                                    ->where('CodigoBarra', '=', $e->CodigoBarra)
-                                    ->first();
-                    if($item){
-                        $inventario = Inventario::find($item->id);
-                        
-                        $inventario->Precio = $e->Precio;
-                        $inventario->DescuentoNegociado = $e->DescuentoNegociado;
-                        if($inventario->Entrada < $e->Existencias){
-                            
-                        }
-                        $inventario->Existencias = $e->Existencias;
-                    }
-                }
-               
-           } 
-        }
         
-        /*
-         * Función para enviar pedido via API Rest
+        /**
+         * @name        colocarPedido
+         * 
+         * @description     Publica Pedido del Cliente a Droguería para su procesamiento.
          */
         public function colocarPedido(){
             if(Request::ajax()){
@@ -381,9 +354,8 @@ class APIRestController extends \BaseController {
                 ));
                                 
                 
-                $autenticacion = json_decode($this->obtenerToken());
-                
                 set_time_limit(10000);
+                $autenticacion = json_decode($this->obtenerTokenUsuario());
                 
                 $options = ['http' => [
                     'method' => 'PUT',
@@ -400,10 +372,51 @@ class APIRestController extends \BaseController {
             }
         }
         
-        /*
-         * Función para obtener fallas de pedido (unidades no suplidas)
+        /**
+         * @name            obtenerFallasPedido
+         * 
+         * @description     Retorna un listado con las fallas (unidades no suplidas) 
+         *                  de un pedido enviado.
          */
         public function obtenerFallasPedido(){
+            
+        }
+        
+        /**
+         * @name            obtenerFacturasDelDia
+         * 
+         * @description     Retorna un listado con las facturas generadas en una 
+         *                  fecha específica.     
+         */
+        public function obtenerFacturasDelDia(){
+            
+        }
+        
+        /**
+         * @name            obtenerFactura
+         * 
+         * @description     Retorna información que compone una factura.
+         */
+        public function obtenerFactura(){
+            
+        }
+        
+        /**
+         * @name            obtenerSedes
+         * 
+         * @description     Retorna un listado con las sedes o centro de distribución.
+         */
+        public function obtenerSedes(){
+            
+        }
+        
+        /**
+         * @name            obtenerFacturasPedido
+         * 
+         * @description     Retorna un listado con las facturas generadas para un 
+         *                  número de pedido especifico
+         */
+        public function obtenerFacturasPedido(){
             
         }
 }

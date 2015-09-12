@@ -11,6 +11,7 @@ var a = 0;
 var ban = 0;
 var banCatalogo = 0;
 var banInventario = 0;
+var banExistencias = 0;
 //var indice;
 
 multiple = function(existencia, unimanejo){
@@ -323,32 +324,19 @@ limpiar = function(){
   
 };
 
-actualizarExistencias = function(){
-    if(ban === 0){
-        ban = 1;
-        _worker_existencia = new Worker('worker_existencia.js');
-        _worker_existencia.addEventListener('message', function(e){
-            console.log(e.data);
-            ban = 0;
-            mostrarProductos();
-        }, false);
-        _worker_existencia.addEventListener('error', function(e){
-            console.log('Error: '+e.data);
-        }, false);
-
-        _worker_existencia.postMessage('');
-    }
-    mostrarProductos();
-};
-
 cargarOperaciones = function(){
     setInterval(function(){
         obtenerEntradasRecientes();
         setInterval(function(){
-            obtenerExistencias();
-            mostrarProductos();
-        }, 180000);
-    }, 240000);  
+            if(banExistencias === 0){
+                obtenerExistencia();
+            }
+            else{
+                mostrarProductos();
+            }
+            
+        }, 30000);
+    }, 30000);  
 };
 
 cargarInventario = function(){
@@ -362,14 +350,16 @@ cargarInventario = function(){
                    }
                    else{
                        clearInterval(intMostrarProducto);
+                       console.log('parado MostrarProductos');
                    }
-                });
+                }, 30000);
             }
             else{
                 clearInterval(intObtenerInventario);
+                console.log('parado obtenerInventario');
                 cargarOperaciones();
             }
-        }, 240000);
+        }, 30000);
 };
 
 inicio = function(){
@@ -385,14 +375,14 @@ inicio = function(){
                     clearInterval(intMostrarProducto);
                     console.log('parado MostrarProductos');
                 }
-            }, 180000);
+            }, 30000);
         }
         else{
             clearInterval(intObtenerCatalogo);
             console.log('parado obtenerCatalogo');
             cargarInventario();
         }
-    }, 240000);
+    }, 30000);
     
     //mostrarBandeja();
 };
@@ -421,6 +411,7 @@ function obtenerInventario(){
     _worker_inventario = new Worker('worker_inventario.js');
     _worker_inventario.addEventListener('message', function(e){
         console.log(e.data);
+        banInventario = 1;
     }, false);
     _worker_inventario.addEventListener('error', function(e){
         console.log('Error: '+e.data);
@@ -429,11 +420,26 @@ function obtenerInventario(){
 }
 
 function obtenerExistencia(){
-    
+    _worker_existencia = new Worker('worker_existencia.js');
+    _worker_existencia.addEventListener('message', function(e){
+        console.log(e.data);
+        mostrarProductos();
+    }, false);
+    _worker_existencia.addEventListener('error', function(e){
+        console.log('Error: '+e.data);
+    }, false);
+    _worker_existencia.postMessage('');
 }
 
 function obtenerEntradasRecientes(){
-    
+    _worker_entradas = new Worker('worker_entradas.js');
+    _worker_entradas.addEventListener('message', function(e){
+        console.log(e.data);
+    }, false);
+    _worker_entradas.addEventListener('error', function(e){
+        console.log('Error: '+e.data);
+    }, false);
+    _worker_entradas.postMessage('');
 }
 
 
