@@ -9,7 +9,8 @@ var unidadmanejos = new Array();
 var iniciar;
 var a = 0;
 var ban = 0;
-var ban2 = 0;
+var banCatalogo = 0;
+var banInventario = 0;
 //var indice;
 
 multiple = function(existencia, unimanejo){
@@ -268,7 +269,7 @@ mostrarProductos = function(){
                         $('<td>', {style:'border: 1px solid #D0E5F5;', class:'centrado'})
                         .append($('<input>', {id:'cant-'+item.Codigo, type:'number', class:'der', style:'width:80px;', min:item.UMF, max:item.Existencia, value:item.UMF, step:item.UMF}))
                         .append($('<input>', {id:'aite-'+item.Codigo, type:'button', class:'boton-click', value:'+', title:'Agregar producto al carrito'}).on('click', function(){
-                            agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text(), $('#unim-'+item.Codigo).text(), $('#exis-'+item.Codigo).text());
+                            agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text(), item.UMF, $('#exis-'+item.Codigo).text());
                         }))
                         .append($('<input>', {id:'qite-'+item.Codigo, type:'button', class:'boton-click2 ocultar', title:'Quitar producto del carrito', style:'margin:0 auto;'}).on('click', function(){
                             quitarItem(this.id, item.UMF);
@@ -340,65 +341,60 @@ actualizarExistencias = function(){
     mostrarProductos();
 };
 
-mostrarBandeja = function(){
-    /*$('#txtBuscar').val('');
-    $('#txtCarrito').val(parseFloat('0.00').toFixed(2));
-  
-    codigos = new Array();
-    precios = new Array();
-    cantidades = new Array();
-  
-    mostrarProductos();
+cargarOperaciones = function(){
+    setInterval(function(){
+        obtenerEntradasRecientes();
+        setInterval(function(){
+            obtenerExistencias();
+            mostrarProductos();
+        }, 180000);
+    }, 240000);  
+};
 
-    // Trabajador para cargar el inventario diario
-    _worker_inventario = new Worker('worker_inventario.js');
-    _worker_inventario.addEventListener('message', function(e){
-        console.log(e.data);
-    }, false);
-    _worker_inventario.addEventListener('error', function(e){
-        console.log('Error: '+e.data);
-    }, false);
-    _worker_inventario.postMessage('');*/
-    
-    var d = new Date();
-    begin = d.getTime();
-    
-    //mostrarProductos();
-    while(a === 0){
-        d = new Date();
-        if(d.getTime()-begin>15000){
-            
-            
-            a = 1;
-        }
-    }
-    
-    if(ban === 0){
-        setInterval(actualizarExistencias, 2400000);
-    }
-    else{
-        setInterval(mostrarBandeja, 120000);
-    }
+cargarInventario = function(){
+        console.log('mostrar Bandeja');
+        var intObtenerInventario = setInterval(function(){
+            if(banInventario === 0){
+                obtenerInventario();
+                var intMostrarProducto = setInterval(function(){
+                   if(banInventario === 0){
+                       mostrarProductos();
+                   }
+                   else{
+                       clearInterval(intMostrarProducto);
+                   }
+                });
+            }
+            else{
+                clearInterval(intObtenerInventario);
+                cargarOperaciones();
+            }
+        }, 240000);
 };
 
 inicio = function(){
     configextra();
     var intObtenerCatalogo = setInterval(function(){
-        if(ban2 === 0){
+        if(banCatalogo === 0){
             obtenerCatalogo();
             var intMostrarProducto = setInterval(function(){
-                mostrarProductos();
+                if(banCatalogo === 0){
+                    mostrarProductos();
+                }
+                else{
+                    clearInterval(intMostrarProducto);
+                    console.log('parado MostrarProductos');
+                }
             }, 180000);
         }
         else{
             clearInterval(intObtenerCatalogo);
-            clearInterval(intMostrarProducto);
-            console.log('parado obtenerCatalogo y MostrarProductos');
-            
+            console.log('parado obtenerCatalogo');
+            cargarInventario();
         }
     }, 240000);
     
-    
+    //mostrarBandeja();
 };
 
 /*
@@ -410,7 +406,7 @@ function obtenerCatalogo(){
     _worker_producto = new Worker('worker_producto.js');
     _worker_producto.addEventListener('message', function(e){
            console.log(e.data);
-           ban2 = 1;
+           banCatalogo = 1;
     }, false);
     _worker_producto.addEventListener('error', function(e){
             console.log('Error: '+e.data);
