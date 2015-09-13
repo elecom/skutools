@@ -70,10 +70,28 @@
         <div id="DivFooterRow" style="overflow:hidden">
         </div>
     </div>
+    
+    <div id="div_datospedidos_pruebas" style="width: 900px; border: 1px solid #D0E5F5; min-height: 200px; max-height: 600px; border-radius: 5px; margin-bottom: 50px; padding: 3px;">
+        <table id="tab_datospedidos_pruebas" width='100%' cellspacing='0' class="display row-border" style="margin: 0 auto;">
+            <thead>
+                <tr style="background-color: #D0E5F5; color: #2E6E9E;" >
+                    <th >Codigo</th>
+                    <th class="izq">Descripci&oacute;n</th>
+                    <th>Precio</th>
+                    <th>Vencimiento</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 @stop
 
+@section('script_css')
+{{ HTML::style('DataTables/media/css/jquery.dataTables.min.css') }}
+@stop
+
 @section('script')
+{{ HTML::script('DataTables/media/js/jquery.dataTables.min.js') }}
 {{ HTML::script('js/app/tomapedido.js') }}
 {{ HTML::script('js/tablaHFija.js') }}
 @stop

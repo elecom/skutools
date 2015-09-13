@@ -45,6 +45,29 @@ inicio = function(){
     MakeStaticHeader('TblId', 300, 400, 52, true, 'headerProductos', 'contentProductos', 'footerProductos');
     
     configextra();
+    
+    $.ajax({
+        url:'mostrarProductos',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data){
+            $('#tab_datospedidos_pruebas').dataTable({
+               scrollY: '300px',
+               paging: false,
+               language:{
+                   "decimal": ",",
+                   "thousands": "."
+               },
+               data: data['productos'],
+               columns:[
+                   {'data':'Codigo'},
+                   {'data':'Nombre'},
+                   {'data':'Precio'},
+                   {'data':'Vencimiento'}
+               ]
+            });
+        }
+    });
 };
 
 $(document).on('ready', function(){

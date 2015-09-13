@@ -215,7 +215,7 @@ class APIRestController extends \BaseController {
 
                 $existencias = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Producto/Existencias/".$sede->Codigo."/Cliente/".Auth::user()->Codigo_Cliente, false, $context));
                 
-                if($existencias){
+                /*if($existencias){
                     foreach ($existencias->Existencias->Producto as $e){
 
                         $inve = Inventario::where('user_id','=',Auth::user()->id)
@@ -234,7 +234,7 @@ class APIRestController extends \BaseController {
                             $inve->save();
                         }
                     }
-                }
+                }*/
         }
         
         /**

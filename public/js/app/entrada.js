@@ -335,8 +335,8 @@ cargarOperaciones = function(){
                 mostrarProductos();
             }
             
-        }, 30000);
-    }, 30000);  
+        }, 120000);
+    }, 120000);  
 };
 
 cargarInventario = function(){
