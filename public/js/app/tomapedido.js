@@ -52,6 +52,7 @@ inicio = function(){
         dataType: 'json',
         success: function(data){
             $('#tab_datospedidos_pruebas').dataTable({
+               bProcessing: true,
                scrollY: '300px',
                paging: false,
                language:{

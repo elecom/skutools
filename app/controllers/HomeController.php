@@ -249,7 +249,7 @@ class HomeController extends BaseController {
                                 ORDER BY 
                                         i.Vencimiento ASC,
                                         p.Nombre
-                                LIMIT 0,150",
+                                ",
                                 array(Auth::user()->id, Fecha::arreglarFecha3(Fecha::fechaActual()))
                         );
 
