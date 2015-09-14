@@ -325,7 +325,7 @@ limpiar = function(){
 };
 
 cargarOperaciones = function(){
-    setInterval(function(){
+    /*setInterval(function(){
         obtenerEntradasRecientes();
         setInterval(function(){
             if(banExistencias === 0){
@@ -336,7 +336,7 @@ cargarOperaciones = function(){
             }
             
         }, 120000);
-    }, 120000);  
+    }, 120000);  */
 };
 
 cargarInventario = function(){

@@ -88,6 +88,29 @@ class APIRestController extends \BaseController {
                             $produ->Administrado = $p->Administrado;
                             $produ->save();
                         }
+                        else{
+                            $produc = Producto::find($prod->id);
+                            $produc->Codigo = $p->Codigo;
+                            $produc->CodigoBarra = $p->CodigoBarra;
+                            $produc->CodigoLaboratorio = $p->CodigoLaboratorio;
+                            $produc->Nombre = $p->Nombre;
+                            $produc->Tipo = $p->Tipo;
+                            $produc->Condicion = $p->Condicion;
+                            $produc->GravaImpuesto = $p->GravaImpuesto;
+                            $produc->Fragil = $p->Fragil;
+                            $produc->Refrigerado = $p->Refrigerado;
+                            $produc->Toxico = $p->Toxico;
+                            $produc->PrincipioActivo = $p->PrincipioActivo;
+                            $produc->Clase = $p->Clase;
+                            $produc->Nuevo = $p->Nuevo;
+                            $produc->Marca = $p->Marca;
+                            $produc->ISV = $p->ISV;
+                            $produc->UMF = $p->UMF;
+                            $produc->PorcentajeUMF = $p->PorcentajeUMF;
+                            $produc->Ingreso = $p->Ingreso;
+                            $produc->Administrado = $p->Administrado;
+                            $produc->save();
+                        }
                     }
                  }
              }
