@@ -3,12 +3,12 @@
 @section('subtitulo') TOMAR PEDIDO @stop
 
 @section('contenido')
-<div style="width: 900px; margin: 0 auto; text-align: center;">
+<!--<div style="width: 900px; margin: 0 auto; text-align: center;">-->
     
     {{-- Tabla de Productos --}}
-    <div id="div_datosproductos" style="width: 100%; margin: 0 auto; min-height: 200px; max-height: 300px; border: 1px solid #D0E5F5; border-radius: 5px;">
-        {{-- Cabecera --}}
-        <div id="headerProductos" style="width: 900px; overflow: hidden;">
+    {{-- Cabecera --}}
+    <!--<div id="div_datosproductos" style="width: 100%; margin: 0 auto; min-height: 200px; max-height: 300px; border: 1px solid #D0E5F5; border-radius: 5px;">
+            <div id="headerProductos" style="width: 900px; overflow: hidden;">
             <table style="width: 900px;">
                 <thead>
                     <tr style="background-color: #D0E5F5; color: #2E6E9E;">
@@ -19,19 +19,17 @@
                     </tr>
                 </thead>
             </table>
-        </div>
-        {{-- Contenido --}}
+        </div> 
         <div id="contentProductos" style="overflow-y: scroll; overflow-x: hidden; max-height: 200px;" onscroll="OnScrollDiv(this, 'headerProductos', 'footerProductos')">
             <table id="tab_datosproductos" style="width: 900px; margin: 0 auto;">
                 <tbody></tbody>
          </table>
         </div>
-        {{-- Pie --}}
         <div id="footerProductos" style="overflow: hidden;"></div>
-    </div>
+    </div>-->
     
     {{-- Busqueda de Productos --}}
-    <div id="div_busqueda" style="width: 900px; margin: 0 auto; margin-top: 10px; margin-bottom: 10px; border: 1px solid #D0E5F5; height: 50px; border-radius: 5px;">
+    <!--<div id="div_busqueda" style="width: 900px; margin: 0 auto; margin-top: 10px; margin-bottom: 10px; border: 1px solid #D0E5F5; height: 50px; border-radius: 5px;">
         <table id="tab_busqueda" style="width: 500px; margin: 0 auto;">
             <tbody>
                 <tr>
@@ -42,11 +40,9 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
     
-    {{-- Tabla de Pedidos --}}
-    <div id="div_datospedidos" style="width: 900px; border: 1px solid #D0E5F5; min-height: 200px; max-height: 300px; border-radius: 5px; margin-bottom: 50px;">
-        {{-- Cabecera --}}
+    <!--<div id="div_datospedidos" style="width: 900px; border: 1px solid #D0E5F5; min-height: 200px; max-height: 300px; border-radius: 5px; margin-bottom: 50px;">
         <div style="overflow: hidden;" id="DivHeaderRow">
             <table>
                 <thead>
@@ -60,19 +56,17 @@
                 </thead>
             </table>
         </div>
-        {{-- Contenido --}}
         <div style="overflow-y: scroll; overflow-x: hidden; max-height: 200px; " onscroll="OnScrollDiv(this, 'DivHeaderRow', 'DivFooterRow')" id="DivMainContent">
             <table id="tab_datosregistro" style="width: 900px; margin: 0 auto;">
                 <tbody></tbody>
          </table>
         </div>
-        {{-- Pie --}}
         <div id="DivFooterRow" style="overflow:hidden">
         </div>
-    </div>
+    </div>-->
     
-    <div id="div_datospedidos_pruebas" style="width: 900px; border: 1px solid #D0E5F5; min-height: 200px; max-height: 600px; border-radius: 5px; margin-bottom: 50px; padding: 3px;">
-        <table id="tab_datospedidos_pruebas" width='100%' cellspacing='0' class="display row-border" style="margin: 0 auto;">
+    <div id="div_datospedidos_pruebas" style="width: 900px; border: 1px solid #D0E5F5; min-height: 200px; max-height: 600px; border-radius: 5px; margin-bottom: 50px; padding: 0px; float: right; margin-right: 50px;">
+        <table id="tab_datospedidos_pruebas" width='100%' cellspacing='0' class="display cell-border compact stripe" style="margin: 0 auto;">
             <thead>
                 <tr style="background-color: #D0E5F5; color: #2E6E9E;" >
                     <th >Codigo</th>
@@ -83,11 +77,12 @@
             </thead>
         </table>
     </div>
-</div>
+<!--</div>-->
 @stop
 
 @section('script_css')
 {{ HTML::style('DataTables/media/css/jquery.dataTables.min.css') }}
+{{ HTML::style('DataTables/media/css/dataTables.jqueryui.min.css') }}
 @stop
 
 @section('script')

@@ -54,7 +54,7 @@ inicio = function(){
             $('#tab_datospedidos_pruebas').dataTable({
                bProcessing: true,
                scrollY: '300px',
-               paging: false,
+               paging: true,
                language:{
                    "decimal": ",",
                    "thousands": "."
