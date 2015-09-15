@@ -66,12 +66,27 @@
     </div>-->
     
     <div id="div_datospedidos_pruebas" style="width: 900px; border: 1px solid #D0E5F5; min-height: 200px; max-height: 600px; border-radius: 5px; margin-bottom: 50px; padding: 0px; float: right; margin-right: 50px;">
-        <table id="tab_datospedidos_pruebas" width='100%' cellspacing='0' class="display cell-border compact stripe" style="margin: 0 auto;">
+        <table id="tab_datospedidos_pruebas" width='100%' cellspacing='0' class="row-border" style="margin: 0 auto;">
             <thead>
-                <tr style="background-color: #D0E5F5; color: #2E6E9E;" >
+                <tr style="color: #2E6E9E;" >
                     <th >Codigo</th>
                     <th class="izq">Descripci&oacute;n</th>
                     <th>Precio</th>
+                    <th>Existencia</th>
+                    <th>Vencimiento</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <span style="clear: both;"></span>
+    <div id="div_datospedidos_pruebas2" style="width: 900px; border: 1px solid #D0E5F5; min-height: 200px; max-height: 600px; border-radius: 5px; margin-bottom: 50px; padding: 0px; float: right; margin-right: 50px;">
+        <table id="tab_datospedidos_pruebas2" width='100%' cellspacing='0' class="row-border" style="margin: 0 auto;">
+            <thead>
+                <tr style="color: #2E6E9E;" >
+                    <th >Codigo</th>
+                    <th class="izq">Descripci&oacute;n</th>
+                    <th>Precio</th>
+                    <th>Existencia</th>
                     <th>Vencimiento</th>
                 </tr>
             </thead>
@@ -83,6 +98,7 @@
 @section('script_css')
 {{ HTML::style('DataTables/media/css/jquery.dataTables.min.css') }}
 {{ HTML::style('DataTables/media/css/dataTables.jqueryui.min.css') }}
+{{ HTML::style('DataTables/media/css/dataTables.foundation.min.css') }}
 @stop
 
 @section('script')

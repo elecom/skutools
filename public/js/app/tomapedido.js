@@ -53,18 +53,35 @@ inicio = function(){
         success: function(data){
             $('#tab_datospedidos_pruebas').dataTable({
                scrollY: '300px',
+               scrollCollapse: true,
                paging: true,
+               pagingType:'full_numbers',
                data: data['productos'],
                language:{
-                   "decimal": ",",
-                   "thousands": "."
+                   decimal: ",",
+                   thousands: ".",
+                   lengthMenu: 'Mostrar _MENU_ por paginas',
+                   zeroRecords: 'No hay datos disponibles'
                },
+               info: false,
+               ordering: false,
                columns:[
                    {'data':'Codigo'},
                    {'data':'Nombre'},
                    {'data':'Precio'},
+                   {'data':'Existencia'},
                    {'data':'Vencimiento'}
                ]
+            });
+            
+            $('#tab_datospedidos_pruebas2').dataTable({
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+                language:{
+                    zeroRecords: 'No hay datos disponibles'
+                }
             });
         }
     });
