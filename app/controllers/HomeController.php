@@ -141,7 +141,7 @@ class HomeController extends BaseController {
                                 ->where('Codigo','=',$codigos[$i])
                                 ->first();
                 	
-                        $decremento = $cantidades[$i]*$unidadManejo[$i];
+                        $decremento = $cantidades[$i];
                         
                 	DB::table('inventarios')
                 		 ->where('user_id','=',Auth::user()->id)

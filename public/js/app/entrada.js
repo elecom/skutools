@@ -330,6 +330,7 @@ cargarOperaciones = function(){
         setInterval(function(){
             if(banExistencias === 0){
                 obtenerExistencia();
+                banExistencias = 1;
             }
             else{
                 mostrarProductos();
@@ -424,6 +425,7 @@ function obtenerExistencia(){
     _worker_existencia.addEventListener('message', function(e){
         console.log(e.data);
         mostrarProductos();
+        banExistencias = 0;
     }, false);
     _worker_existencia.addEventListener('error', function(e){
         console.log('Error: '+e.data);

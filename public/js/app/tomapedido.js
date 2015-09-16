@@ -71,7 +71,9 @@ inicio = function(){
                    {'data':'Precio'},
                    {'data':'Existencia'},
                    {'data':'Vencimiento'}
-               ]
+               ],
+               deferRender: true,
+               order:[[0, 'asc']]
             });
             
             $('#tab_datospedidos_pruebas2').dataTable({
