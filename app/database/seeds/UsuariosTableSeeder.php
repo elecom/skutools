@@ -129,7 +129,7 @@ class UsuariosTableSeeder extends Seeder{
             'rol_id' => 1,
             'sede_id' => 2,
             'Nombre' => 'Farmacia San Marcos Nº 2',
-            'email' => 'valentina@hotmail.com',
+            'email' => 'sanmarcosn2@hotmail.com',
             'password' => Hash::make('123456'),
             'Usuario_Wservices' => 'REST-CLI7468',
             'Password_Wservices' => '12345678',

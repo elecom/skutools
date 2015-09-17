@@ -336,8 +336,8 @@ cargarOperaciones = function(){
                 mostrarProductos();
             }
             
-        }, 240000);
-    }, 240000);  
+        }, 6000000);
+    }, 600000);  
 };
 
 cargarInventario = function(){
@@ -347,7 +347,7 @@ cargarInventario = function(){
                 obtenerInventario();
                 var intMostrarProducto = setInterval(function(){
                    if(banInventario === 0){
-                       mostrarProductos();
+                       //mostrarProductos();
                    }
                    else{
                        clearInterval(intMostrarProducto);
@@ -370,7 +370,7 @@ inicio = function(){
             obtenerCatalogo();
             var intMostrarProducto = setInterval(function(){
                 if(banCatalogo === 0){
-                    mostrarProductos();
+                   // mostrarProductos();
                 }
                 else{
                     clearInterval(intMostrarProducto);

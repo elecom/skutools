@@ -41,9 +41,9 @@ class CrearTablaUsuarios extends Migration {
                         $table->string('Codigo_Cliente')
                                 ->nullable();
                         $table->boolean('Activo')
-                                ->default(false);
-                        $table->boolean('PrimeraVez')
                                 ->default(true);
+                        $table->boolean('PrimeraVez')
+                                ->default(false);
                         $table->rememberToken();
 			$table->timestamps();
 		});

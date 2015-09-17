@@ -4,13 +4,13 @@ class SedesTableSeeder extends Seeder{
     public function run(){
         Sede::create([
             "Codigo" => "DC",
-            "Nombre" => "SUCURSAL",
+            "Nombre" => "DROGUERÍA NENA GUARENAS",
             "Principal" => false
         ]);
         
         Sede::create([
             "Codigo" => "DN",
-            "Nombre" => "PRINCIPAL",
+            "Nombre" => "DROGUERÍA NENA BARQUISIMETO",
             "Principal" => false
         ]);
     }    
