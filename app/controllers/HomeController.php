@@ -29,6 +29,11 @@ class HomeController extends BaseController {
             return View::make('principal.tomapedido');
         }
         
+        public function reportePedido(){
+            return View::make('principal.reportepedido');
+        }
+
+
         public function actualizarPedido(){
             if(Request::ajax()){
                 
@@ -267,5 +272,26 @@ class HomeController extends BaseController {
 
 		}
 	}
+        
+        public function mostrarPedidos(){
+            if(Request::ajax()){
+                $pedidos = Pedido::where('CodigoCliente','=',Input::get('codigo_cliente'))
+                        ->orderBy('created_at','ASC')
+                        ->get();
+                
+                if($pedidos){
+                    return Response::json(array(
+                        'encontrado' => true,
+                        'pedidos' => $pedidos
+                    ));
+                }
+                else{
+                    return Response::json(array(
+                        'encontrado' => false
+                    ));
+                }
+                
+            }
+        }
 
 }

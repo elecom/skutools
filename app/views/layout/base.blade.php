@@ -50,9 +50,9 @@
                             {{-- Pedido de Productos --}}
                             <li><a href="#">Pedido</a><span style="color: #2e6e9e">&gt;&gt;</span>
                                 <ul class="sub-level">
-                                    <li><a href="{{ URL::to('tomarpedido') }}">Tomar Pedido</a></li>
-                                    <li><a href="#">Actualizar Pedido</a></li>
-                                    <li><a href="#">Reporte Pedido</a></li>
+                                    <!--<li><a href="{{ URL::to('tomarpedido') }}">Tomar Pedido</a></li>-->
+                                    <!--<li><a href="#">Actualizar Pedido</a></li>-->
+                                    <li><a href="{{ URL::to('reportepedido') }}">Reporte Pedido</a></li>
                                 </ul>
                             </li>
                             
