@@ -275,9 +275,25 @@ class HomeController extends BaseController {
         
         public function mostrarPedidos(){
             if(Request::ajax()){
-                $pedidos = Pedido::where('CodigoCliente','=',Input::get('codigo_cliente'))
+                /*$pedidos = Pedido::where('CodigoCliente','=',Input::get('codigo_cliente'))
                         ->orderBy('created_at','ASC')
-                        ->get();
+                        ->get();*/
+                $pedidos = DB::select("
+                        SELECT 
+                            pe.NumeroPedido AS NumeroPedido,
+                            pe.Status AS Status, 
+                            pe.NumeroOrden AS NumeroOrden,
+                            pe.created_at AS Fecha
+                        FROM
+                            ldcsyste_dbskutools.`pedidos` AS pe
+                        WHERE
+                            pe.CodigoCliente = ? 
+                        ORDER BY
+                            pe.created_at DESC
+                        
+                        
+                    ", array(Input::get('codigo_cliente')));
+                
                 
                 if($pedidos){
                     return Response::json(array(
