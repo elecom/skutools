@@ -7,20 +7,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Dixon Acosta',
-            'email' => 'cliente@hotmail.com',
-            'password' => Hash::make('123456'),
-            'Usuario_Wservices' => 'rest-1964',
-            'Password_Wservices' => '12345678',
-            'Codigo_Cliente' => '0244'
-        ]);
-        
-        User::create([
-            'rol_id' => 1,
-            'sede_id' => 2,
-            'Nombre' => 'Farmacia Mi Chinita',
-            'email' => 'inversion_michinita@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'INV. MI CHINITA',
+            'email' => 'inversiones_michinita@hotmail.com',
+            'password' => Hash::make('12chinita34'),
             'Usuario_Wservices' => 'REST-CLI0611',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '0611'
@@ -29,9 +18,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Valentina',
-            'email' => 'valentina@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'FCIA VALENTINA',
+            'email' => 'farmacia_valentina@cantv.net',
+            'password' => Hash::make('12valentina34'),
             'Usuario_Wservices' => 'REST-CLI0612',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '0612'
@@ -40,9 +29,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Cristina',
-            'email' => 'cristina@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'FCIA CRISTINA',
+            'email' => 'farmacia_cristina@cantv.net',
+            'password' => Hash::make('12cristina34'),
             'Usuario_Wservices' => 'REST-CLI0613',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '0613'
@@ -51,9 +40,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Vanessa',
-            'email' => 'vanessa@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'FCIA VANESSA',
+            'email' => 'farmacia_vanessa@cantv.net',
+            'password' => Hash::make('12vanessa34'),
             'Usuario_Wservices' => 'REST-CLI0614',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '0614'
@@ -62,9 +51,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Virginia',
-            'email' => 'virginia@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'FCIA VIRGINIA',
+            'email' => 'farmacia_virginia@cantv.net',
+            'password' => Hash::make('12virginia34'),
             'Usuario_Wservices' => 'REST-CLI0616',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '0616'
@@ -73,9 +62,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Municipal del Sol',
-            'email' => 'municipaldelsol@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'FCIA EL SOL',
+            'email' => 'farmacia_elsol@cantv.net',
+            'password' => Hash::make('12elsol34'),
             'Usuario_Wservices' => 'REST-CLI0617',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '0617'
@@ -84,9 +73,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Palaima',
-            'email' => 'palaima@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'FCIA PALAIMA',
+            'email' => 'farmacia_palaima@cantv.net',
+            'password' => Hash::make('12palaima34'),
             'Usuario_Wservices' => 'REST-CLI0618',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '0618'
@@ -95,9 +84,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'OTC Farmacos',
+            'Nombre' => 'OTC FARMACOS',
             'email' => 'otcfarmacos3@gmail.com',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('12otcfarmacos34'),
             'Usuario_Wservices' => 'REST-CLIB138',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => 'B138'
@@ -106,9 +95,9 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Veronica',
-            'email' => 'veronica@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'I. SANSURF. VERONICA',
+            'email' => 'farmacia_veronica@cantv.net',
+            'password' => Hash::make('12veronica34'),
             'Usuario_Wservices' => 'REST-CLI2830',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '2830'
@@ -117,15 +106,15 @@ class UsuariosTableSeeder extends Seeder{
         User::create([
             'rol_id' => 1,
             'sede_id' => 2,
-            'Nombre' => 'Farmacia Camila',
-            'email' => 'camila@hotmail.com',
-            'password' => Hash::make('123456'),
+            'Nombre' => 'FCIA CAMILA',
+            'email' => 'farmacia_camila@cantv.net',
+            'password' => Hash::make('12camila34'),
             'Usuario_Wservices' => 'REST-CLI4557',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '4557'
         ]);
         
-        User::create([
+       /* User::create([
             'rol_id' => 1,
             'sede_id' => 2,
             'Nombre' => 'Farmacia San Marcos Nº 2',
@@ -156,13 +145,24 @@ class UsuariosTableSeeder extends Seeder{
             'Usuario_Wservices' => 'REST-CLI7136',
             'Password_Wservices' => '12345678',
             'Codigo_Cliente' => '7136'
-        ]);
+        ]);*/
         
+       User::create([
+            'rol_id' => 1,
+            'sede_id' => 2,
+            'Nombre' => 'Dixon Acosta',
+            'email' => 'cliente@hotmail.com',
+            'password' => Hash::make('123456'),
+            'Usuario_Wservices' => 'rest-1964',
+            'Password_Wservices' => '12345678',
+            'Codigo_Cliente' => '0244'
+       ]);
+       
        User::create([
             'rol_id' => 2,
             'Nombre' => 'Dixon Acosta',
             'email' => 'administrador@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12admin34')
         ]);
     }
 }

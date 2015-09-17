@@ -79,8 +79,53 @@ Route::get('/registro', function(){
 });*/
 
 Route::get('/guardarProducto', function(){
+    set_time_limit(10000);
+    $option = ['http' => [
+        'method' => 'GET',
+        //'header' => ['Authorization: Basic cmVzdC0xOTY0OjEyMzQ1Njc4','Content-Type: application/json']
+        'header' => ['Authorization: GUID C3C58180-71AA-4681-A205-5E1EE80D93E0','Content-Type: application/json; charset=utf-8']
+    ]];
+    
+    $context = stream_context_create($option);
+    
+    //echo file_get_contents("http://Test.dronena.com:8083/REST/Cloud/Seguridad/Autenticacion", false, $context);
+    $productos = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Producto/Catalogo/Cliente/4557", false, $context));
+    
+    foreach ($productos->Catalogo->Producto as $p){
+        $pro = Producto::where('Codigo','=',$p->Codigo)
+                ->where('CodigoBarra','=',$p->CodigoBarra)
+                ->first();
         
-       $json_productos = file_get_contents('jsons/Productos.json');
+        if(!$pro){
+            $laboratorio = Laboratorio::where('Codigo','=',$p->CodigoLaboratorio)->first();
+            $producto = new Producto();
+               $producto->Codigo = $p->Codigo;
+               $producto->CodigoBarra = $p->CodigoBarra;
+               $producto->laboratorio_id = $laboratorio->id;
+               $producto->Nombre = $p->Nombre;
+               $producto->Tipo = $p->Tipo;
+               $producto->Condicion = $p->Condicion;
+               $producto->GravaImpuesto = $p->GravaImpuesto;
+               $producto->Fragil = $p->Fragil;
+               $producto->Refrigerado = $p->Refrigerado;
+               $producto->Toxico = $p->Toxico;
+               $producto->PrincipioActivo = $p->PrincipioActivo;
+               $producto->Clase = $p->Clase;
+               $producto->Nuevo = $p->Nuevo;
+               $producto->Marca = $p->Marca;
+               $producto->ISV = $p->ISV;
+               $producto->UMF = $p->UMF;
+               $producto->PorcentajeUMF = $p->PorcentajeUMF;
+               $producto->Ingreso = $p->Ingreso;
+               $producto->Administrado = $p->Administrado;
+               $producto->save();
+               
+               echo "Guardado producto con codigo: ".$p->Codigo."<br>";
+        }
+                
+    }
+    
+       /*$json_productos = file_get_contents('jsons/Productos.json');
         
        $datos_productos = json_decode($json_productos);
        
@@ -121,16 +166,69 @@ Route::get('/guardarProducto', function(){
                echo "Guardado producto con codigo: ".$d->Codigo."<br>";
                
          }
-    }
+    }*/
         
 });
 
 Route::get('/guardarInventario', function(){
-    $json_inventario = file_get_contents('jsons/Inventario.json');
     
-    $datos_inventario = json_decode($json_inventario);
+    set_time_limit(10000);
+    $option = ['http' => [
+        'method' => 'GET',
+        //'header' => ['Authorization: Basic cmVzdC0xOTY0OjEyMzQ1Njc4','Content-Type: application/json']
+        'header' => ['Authorization: GUID 461AA253-1A15-4AB3-A8A6-DF3993390911','Content-Type: application/json; charset=utf-8']
+    ]];
     
-    set_time_limit(2000);
+    $context = stream_context_create($option);
+    
+    //echo file_get_contents("http://Test.dronena.com:8083/REST/Cloud/Seguridad/Autenticacion", false, $context);
+    $inventario = json_decode(file_get_contents("http://test.dronena.com:8083/REST/Cloud/Producto/Inventario/DN/Cliente/0617", false, $context));
+    $usuario = 6;
+    foreach ($inventario->Inventario->Producto as $i){
+        $inve = Inventario::where('user_id','=',$usuario)
+                ->where('Codigo','=',$i->Codigo)
+                ->where('CodigoBarra','=',$i->CodigoBarra)
+                ->first();
+        
+        
+        if(!$inve){
+            $producto = DB::table('productos')
+                    ->where('Codigo','=',$i->Codigo)
+                    ->where('CodigoBarra','=',$i->CodigoBarra)
+                    ->first();
+            
+            $inv = new Inventario();
+                $inv->user_id = $usuario;
+                $inv->Codigo = $i->Codigo;
+                $inv->CodigoBarra = $i->CodigoBarra;
+                $inv->Precio = $i->Precio;
+                $inv->Descuento = $i->Descuento;
+                $inv->Entrada = $i->Existencia;
+                $inv->Existencia = $i->Existencia;
+                $inv->DescuentoUfi = $i->DescuentoUfi;
+                $inv->DescuentoEmpaque = $i->DescuentoEmpaque;
+                $inv->UnidadEmpaque = $i->UnidadEmpaque;
+                $inv->DescuentoComercial = $i->DescuentoComercial;
+                $inv->DescuentoProntoPago = $i->DescuentoProntoPago;
+                $inv->Lote = $i->Lote;
+                $inv->Vencimiento = $i->Vencimiento;
+                $inv->UnidadManejo = $i->UnidadManejo;
+                $inv->FechaVenta = Fecha::arreglarFecha2(Fecha::fechaActual());
+                
+                $inv->save();
+                
+                $inv->productos()->attach($producto->id);
+                echo "Inventario Guardado del producto: ".$i->Codigo.'<br>';
+        }
+    }
+    
+    
+    
+    //$json_inventario = file_get_contents('jsons/Inventario.json');
+    
+    //$datos_inventario = json_decode($json_inventario);
+    
+    /*set_time_limit(2000);
     
     foreach ($datos_inventario->Inventario->Producto as $i){
         //echo $i->Existencia.'<br>';
@@ -174,13 +272,13 @@ Route::get('/guardarInventario', function(){
 
             //if($guardado){
                     echo "Producto Guardado: $i->Codigo<br>";
-              /*  }
+                }
                 else{
                     echo "Producto sin Guardar: $i->Codigo<br>";
-                }*/
+                }
             }
         
-    }
+    }*/
 });
 
 //Route::get('/cargarCatalogoProductos','APIRestController@cargarCatalogoProductos');
@@ -487,7 +585,7 @@ Route::get('/proveedores', function(){
             $laboratorio->Nombre = $prov->Nombre;
             $laboratorio->save();
             
-            echo "Guardado laboratorio ".$prov->Nombre;
+            echo "Guardado laboratorio ".$prov->Nombre.'<br>';
         }
     }
 });
@@ -505,3 +603,11 @@ Route::get('/proveedores', function(){
     echo $p->NumeroOrden;
     
 });*/
+
+Route::get('/usuarios', function(){
+    $usuarios = User::all();
+    
+    foreach ($usuarios as $u){
+        
+    }
+});

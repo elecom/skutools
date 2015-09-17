@@ -28,12 +28,13 @@ class AuthController extends BaseController{
     public function postLogin(){
         // Obtenemos los datos del formulario
         $data = [
-           'email' => Input::get('email'),
-           'password' => Input::get('password') 
+           'Email' => Input::get('email'),
+           'Password' => Input::get('password') 
         ];
         
         // comprabar validaciones
-        
+        //print_r($data);
+        //exit(0);
         
         // Verificamos los datos
         if(Auth::attempt($data)) // Como segundo parámetro pasámos el checkbox para sabes si queremos recordar la contraseña

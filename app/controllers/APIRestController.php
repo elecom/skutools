@@ -66,10 +66,11 @@ class APIRestController extends \BaseController {
                         // El producto no existe en base de datos (se agrega a la base de datos)
                         if(!$prod){
                             //echo "No encontrado codigo: ".$p->Codigo."<br>";
+                            $laboratorio = Laboratorio::where('Codigo','=',$p->CodigoLaboratorio)->first();
                             $produ = new Producto();
                             $produ->Codigo = $p->Codigo;
                             $produ->CodigoBarra = $p->CodigoBarra;
-                            $produ->CodigoLaboratorio = $p->CodigoLaboratorio;
+                            $produ->laboratorio_id = $laboratorio->id;
                             $produ->Nombre = $p->Nombre;
                             $produ->Tipo = $p->Tipo;
                             $produ->Condicion = $p->Condicion;

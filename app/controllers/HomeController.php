@@ -283,16 +283,17 @@ class HomeController extends BaseController {
                             pe.NumeroPedido AS NumeroPedido,
                             pe.Status AS Status, 
                             pe.NumeroOrden AS NumeroOrden,
-                            pe.created_at AS Fecha
+                            pe.updated_at AS Fecha
                         FROM
                             ldcsyste_dbskutools.`pedidos` AS pe
                         WHERE
-                            pe.CodigoCliente = ? 
+                            pe.CodigoCliente = ? AND 
+                            pe.Status = ?
                         ORDER BY
-                            pe.created_at DESC
+                            pe.updated_at DESC
                         
                         
-                    ", array(Input::get('codigo_cliente')));
+                    ", array(Input::get('codigo_cliente'), Input::get('status')));
                 
                 
                 if($pedidos){
