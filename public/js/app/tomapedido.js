@@ -4,40 +4,11 @@
 };*/
 
 configextra = function(){
-  
+    var tabla = $('#tab_datosproductos');
+    
     $('#txtBusqueda').on('keyup', function(e){
-     if($(this).val() !== ''){
-         $.ajax({
-            url: 'buscarProducto',
-            type: 'POST',
-            dataType: 'json',
-            data:{
-                palabra: $(this).val().toUpperCase()
-            }
-        }).done(function(data){
-           $('#tab_datosproductos').find('tbody').empty();
-           if(data['encontrado'] === true){
-               $.map(data['productos'], function(item){
-                   $('#tab_datosproductos').find('tbody').append(
-                           $('<tr>')
-                           .append(
-                               $('<td>',{style:'width:100px;', class:'centrado'}).append($('<label>').text(item.Codigo))
-                           )
-                           .append(
-                               $('<td>',{style:'width:600px;', class:'izq'}).append($('<label>').text(item.Descripcion))
-                           )
-                           .append(
-                               $('<td>',{style:'width:100px;', class:'der'}).append($('<label>').text(item.Existencia))
-                           )
-                           .append(
-                               $('<td>',{style:'width:100px;', class:'der'}).append($('<label>').text(item.Precio))
-                           )
-                   );
-               });
-           }
-        });
-     }
-  });  
+        $.uiTableFilter(tabla, this.value, null, false);
+    });
 };
 
 inicio = function(){
@@ -46,7 +17,7 @@ inicio = function(){
     
     configextra();
     
-    $.ajax({
+    /*$.ajax({
         url:'mostrarProductos',
         type: 'POST',
         dataType: 'json',
@@ -84,6 +55,41 @@ inicio = function(){
                 language:{
                     zeroRecords: 'No hay datos disponibles'
                 }
+            });
+        }
+    });*/
+    $.ajax({
+        url: 'mostrarProductos',
+        type:'POST',
+        dataType: 'json',
+        success: function(data){
+            $.map(data['productos'], function(item){
+               $('#tab_datosproductos').find('tbody')
+               .append(
+                    $('<tr>', {style:'border: 1px solid #D0E5F5;font-size:13px;', class:'ocultar'})
+                    .append(
+                        $('<td>', {id:'cod-'+item.Codigo, class:'centrado', style:'border: 1px solid #D0E5F5; width: 97px'}).append($('<label>').text(item.Codigo))
+                    )
+                    .append(
+                        $('<td>', {class:'izq', style:'border: 1px solid #D0E5F5; width: 490px;'}).append($('<label>',{id:'desc-'+item.Codigo}).text(item.Nombre+" (UMF "+item.UMF+")"))
+                    )
+                    .append(
+                        $('<td>', {class:'der', style:'border: 1px solid #D0E5F5; width: 97px;'}).append($('<label>',{id:'exis-'+item.Codigo}).text(item.Existencia))
+                    )
+                    .append(
+                        $('<td>', {class:'der', style:'border: 1px solid #D0E5F5; width: 97px;'}).append($('<label>',{id:'prec-'+item.Codigo}).text(item.Precio))
+                    )
+                    .append(
+                        $('<td>', {style:'border: 1px solid #D0E5F5;', class:'centrado'})
+                        /*.append($('<input>', {id:'cant-'+item.Codigo, type:'number', class:'der', style:'width:80px;', min:item.UMF, max:item.Existencia, value:item.UMF, step:item.UMF}))*/
+                        .append($('<input>', {id:'sele-'+item.Codigo, type:'button', class:'boton-click', value:'+', title:'Agregar el producto al carrito de compra'}).on('click', function(){
+                            //agregarItem(this.id, $('#cant-'+item.Codigo).val(), $('#prec-'+item.Codigo).text(), $('#desc-'+item.Codigo).text(), item.UMF, $('#exis-'+item.Codigo).text());
+                        }))
+                        /*.append($('<input>', {id:'qite-'+item.Codigo, type:'button', class:'boton-click2 ocultar', title:'Quitar producto del carrito', style:'margin:0 auto;'}).on('click', function(){
+                            quitarItem(this.id, item.UMF);
+                        }))*/
+                    )
+                );
             });
         }
     });

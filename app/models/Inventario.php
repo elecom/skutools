@@ -18,7 +18,9 @@ class Inventario extends Eloquent{
                 'Vencimiento',
                 'UnidadManejo',
                 'FechaVenta',
-                'Nuevo'
+                'Nuevo',
+                'EnPromocion',
+                'CodigoPromocion'
     	];
         
         public function user(){

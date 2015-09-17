@@ -92,36 +92,32 @@ Route::get('/guardarProducto', function(){
                    ->first();
            
            if(!$existe){
-                $datos = array(
-                     "Codigo" => $d->Codigo,
-                     "CodigoBarra" => $d->CodigoBarra,
-                     "CodigoLaboratorio" => $d->CodigoLaboratorio,
-                     "Nombre" => $d->Nombre,
-                     "Tipo" => $d->Tipo,
-                     "Condicion" => $d->Condicion,
-                     "GravaImpuesto" => $d->GravaImpuesto,
-                     "Fragil" => $d->Fragil,
-                     "Refrigerado" => $d->Refrigerado,
-                     "Toxico" => $d->Toxico,
-                     "PrincipioActivo" => $d->PrincipioActivo,
-                     "Clase" => $d->Clase,
-                     "Nuevo" => $d->Nuevo,
-                     "Marca" => $d->Marca,
-                     "ISV" => $d->ISV,
-                     "UMF" => $d->UMF,
-                     "PorcentajeUMF" => $d->PorcentajeUMF,
-                     "Ingreso" => $d->Ingreso,
-                     "Administrado" => $d->Administrado
-                );
-
-                $guardado = Producto::create($datos);
-
-                 if($guardado){
-                     echo "Producto Guardado: $d->Codigo<br>";
-                 }
-                 else{
-                     echo "Producto sin Guardar: $d->Codigo<br>";
-                 }
+               $laboratorio = Laboratorio::where('Codigo','=',$d->CodigoLaboratorio)->first();
+               
+               $producto = new Producto();
+               $producto->Codigo = $d->Codigo;
+               $producto->CodigoBarra = $d->CodigoBarra;
+               $producto->laboratorio_id = $laboratorio->id;
+               $producto->Nombre = $d->Nombre;
+               $producto->Tipo = $d->Tipo;
+               $producto->Condicion = $d->Condicion;
+               $producto->GravaImpuesto = $d->GravaImpuesto;
+               $producto->Fragil = $d->Fragil;
+               $producto->Refrigerado = $d->Refrigerado;
+               $producto->Toxico = $d->Toxico;
+               $producto->PrincipioActivo = $d->PrincipioActivo;
+               $producto->Clase = $d->Clase;
+               $producto->Nuevo = $d->Nuevo;
+               $producto->Marca = $d->Marca;
+               $producto->ISV = $d->ISV;
+               $producto->UMF = $d->UMF;
+               $producto->PorcentajeUMF = $d->PorcentajeUMF;
+               $producto->Ingreso = $d->Ingreso;
+               $producto->Administrado = $d->Administrado;
+               $producto->save();
+               
+               echo "Guardado producto con codigo: ".$d->Codigo."<br>";
+               
          }
     }
         
@@ -472,6 +468,27 @@ Route::get('/envio2', function(){
     }
 });
 
+Route::get('/proveedores', function(){
+    $json_laboratorios = file_get_contents('jsons/Laboratorios.json');
+        
+    $datos_laboratorios = json_decode($json_laboratorios);
+       
+    set_time_limit(2000);
+    
+    foreach ($datos_laboratorios->Proveedores->Proveedor as $prov){
+        
+        $pro = Laboratorio::where('Codigo','=',$prov->Codigo)->first();
+        
+        if(!$pro){
+            $laboratorio = new Laboratorio();
+            $laboratorio->Codigo = $prov->Codigo;
+            $laboratorio->Nombre = $prov->Nombre;
+            $laboratorio->save();
+            
+            echo "Guardado laboratorio ".$prov->Nombre;
+        }
+    }
+});
 /*Route::get('/actualizado', function(){
     //$p = Pedido::where('NumeroPedido','=','2830150006')->first();
     $p = Pedido::where('NumeroPedido','=','2830150006')
